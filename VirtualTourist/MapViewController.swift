@@ -60,6 +60,7 @@ class MapViewController: UIViewController {
         
         if(removeAnnotation){
             navigationItem.rightBarButtonItem = doneButton
+            
         } else {
             navigationItem.rightBarButtonItem = editButton
         }

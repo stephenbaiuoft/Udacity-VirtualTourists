@@ -17,7 +17,7 @@ extension MapViewController: MKMapViewDelegate {
         var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseID) as? MKPinAnnotationView
         if (pinView == nil) {
             pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseID)
-            pinView?.canShowCallout = true
+            pinView?.canShowCallout = false
             pinView?.animatesDrop  = true
         }
         
@@ -25,15 +25,19 @@ extension MapViewController: MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        DebugM.log(msg: "Entered mapView selection annotation delegation methods")
         // this is to remove from annotation
         if(removeAnnotation) {
+            DebugM.log(msg: "Did select a mkannotationview object")
             // fetch MkAnnotationObject
-            let fetchRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: "PinFrame")
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PinFrame")
             
             let latitude = view.annotation?.coordinate.latitude
             let longtitude = view.annotation?.coordinate.longitude
-            let predicate = NSPredicate.init(format: "(longtitude = @%) AND (latitude = @%)", argumentArray: [latitude!, longtitude!])
+            let predicate = NSPredicate.init(format: "(longtitude == %@) AND (latitude == %@)", argumentArray: [longtitude!, latitude!])
             fetchRequest.predicate = predicate
+            // required by default
+            fetchRequest.sortDescriptors = []
             
             fetchedResultsController = NSFetchedResultsController.init(fetchRequest: fetchRequest, managedObjectContext: stack.context, sectionNameKeyPath: nil, cacheName: nil)
             
