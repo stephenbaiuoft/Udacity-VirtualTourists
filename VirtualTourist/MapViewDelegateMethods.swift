@@ -25,10 +25,10 @@ extension MapViewController: MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        DebugM.log(msg: "Entered mapView selection annotation delegation methods")
+        DebugM.log( "Entered mapView selection annotation delegation methods")
         // this is to remove from annotation
         if(removeAnnotation) {
-            DebugM.log(msg: "Did select a mkannotationview object")
+            DebugM.log( "Did select a mkannotationview object")
             // fetch MkAnnotationObject
             let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PinFrame")
             
@@ -52,7 +52,7 @@ extension MapViewController: MKMapViewDelegate {
                     }
 
                 } else {
-                    DebugM.log(msg: "Failed to get that particular annotation or got a list of them: duplicates!")
+                    DebugM.log( "Failed to get that particular annotation or got a list of them: duplicates!")
                 }
             }
             
@@ -63,7 +63,15 @@ extension MapViewController: MKMapViewDelegate {
         
         // This is the section for detailed MapView segue and etc
         else{
+            // push to navigationController
+            let detailedController = storyboard?.instantiateViewController(withIdentifier: "DetailedViewController") as! DetailedViewController
+            // pass data to controller
+            detailedController.annotation = view.annotation!
             
+            // hacky way of changing the navigationController Title ==> have to change back
+            
+            navigationItem.title = "OK"
+            self.navigationController!.pushViewController(detailedController, animated: true)
         }
         
     }

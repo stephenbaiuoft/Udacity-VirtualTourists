@@ -29,6 +29,7 @@ class MapViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         // initialize miscellaneous variables
         initVariables()
         
@@ -55,6 +56,13 @@ class MapViewController: UIViewController {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // reset the title again
+        navigationItem.title = "Virtual Tourists"
+    }
+    
     func loadBarButtonItem() {
         editButton = UIBarButtonItem.init(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: #selector(editingMode))
         doneButton = UIBarButtonItem.init(barButtonSystemItem: UIBarButtonSystemItem.done, target: self, action: #selector(editingMode))
@@ -66,7 +74,7 @@ class MapViewController: UIViewController {
     func editingMode() {
         // toggle removeAnnotation
         removeAnnotation = !removeAnnotation
-        DebugM.log(msg: "annotation toggled state: \(removeAnnotation)")
+        DebugM.log( "annotation toggled state: \(removeAnnotation)" )
         
         if(removeAnnotation){
             navigationItem.rightBarButtonItem = doneButton
@@ -152,7 +160,7 @@ extension MapViewController {
     func addPin( annotation: MKPointAnnotation) {
         let pinFrame =  PinFrame.init(longtitude: annotation.coordinate.longitude,
                                       latitude: annotation.coordinate.latitude, context: stack.context)
-        DebugM.log(msg: "pinFrame object created: \(pinFrame)")
+        DebugM.log("pinFrame object created: \(pinFrame)")
     }
     
     // remove from coredatastack given selected pinFrame

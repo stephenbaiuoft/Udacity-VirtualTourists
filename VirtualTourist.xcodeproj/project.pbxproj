@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DC0375BD1F68B39D00232C18 /* DetailedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0375BC1F68B39D00232C18 /* DetailedViewController.swift */; };
+		DC0375BF1F68B46300232C18 /* CollectionViewDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0375BE1F68B46300232C18 /* CollectionViewDelegates.swift */; };
+		DC0375C11F68B6D900232C18 /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0375C01F68B6D900232C18 /* ImageCollectionViewCell.swift */; };
+		DC2D806A1F69BEBA00CAE050 /* SwiftHelperExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2D80691F69BEBA00CAE050 /* SwiftHelperExtension.swift */; };
 		DCB0FD371F6713050027D75D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCB0FD361F6713050027D75D /* AppDelegate.swift */; };
 		DCB0FD3C1F6713050027D75D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DCB0FD3A1F6713050027D75D /* Main.storyboard */; };
 		DCB0FD3E1F6713050027D75D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DCB0FD3D1F6713050027D75D /* Assets.xcassets */; };
@@ -46,6 +50,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DC0375BC1F68B39D00232C18 /* DetailedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailedViewController.swift; sourceTree = "<group>"; };
+		DC0375BE1F68B46300232C18 /* CollectionViewDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewDelegates.swift; sourceTree = "<group>"; };
+		DC0375C01F68B6D900232C18 /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
+		DC2D80691F69BEBA00CAE050 /* SwiftHelperExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftHelperExtension.swift; sourceTree = "<group>"; };
 		DCB0FD331F6713050027D75D /* VirtualTourist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VirtualTourist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCB0FD361F6713050027D75D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DCB0FD3B1F6713050027D75D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -99,6 +107,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DC0375BB1F68B24D00232C18 /* DetailedViewVC */ = {
+			isa = PBXGroup;
+			children = (
+				DC0375BC1F68B39D00232C18 /* DetailedViewController.swift */,
+				DC0375BE1F68B46300232C18 /* CollectionViewDelegates.swift */,
+				DC0375C01F68B6D900232C18 /* ImageCollectionViewCell.swift */,
+			);
+			name = DetailedViewVC;
+			sourceTree = "<group>";
+		};
 		DCB0FD2A1F6713050027D75D = {
 			isa = PBXGroup;
 			children = (
@@ -159,6 +177,7 @@
 				DCB0FD701F6719E70027D75D /* CoreDataStack.swift */,
 				DCB0FD7D1F6745E30027D75D /* FClient.swift */,
 				DCB0FDC31F67955B0027D75D /* DebugM.swift */,
+				DC2D80691F69BEBA00CAE050 /* SwiftHelperExtension.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -166,8 +185,8 @@
 		DCB0FD731F6719F60027D75D /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				DC0375BB1F68B24D00232C18 /* DetailedViewVC */,
 				DCB0FDC21F678D730027D75D /* MapViewVC */,
-				DCB0FDC11F678D5D0027D75D /* CoreDataCollectionVC */,
 				DCB0FDC01F678D4C0027D75D /* Base Class */,
 				DCB0FD751F671B460027D75D /* CoreDataTableViewController.swift */,
 			);
@@ -209,13 +228,6 @@
 				DCB0FD771F6720880027D75D /* CoreDataCollectionViewController.swift */,
 			);
 			name = "Base Class";
-			sourceTree = "<group>";
-		};
-		DCB0FDC11F678D5D0027D75D /* CoreDataCollectionVC */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = CoreDataCollectionVC;
 			sourceTree = "<group>";
 		};
 		DCB0FDC21F678D730027D75D /* MapViewVC */ = {
@@ -365,8 +377,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC0375C11F68B6D900232C18 /* ImageCollectionViewCell.swift in Sources */,
 				DCB0FD781F6720880027D75D /* CoreDataCollectionViewController.swift in Sources */,
 				DCB0FD711F6719E70027D75D /* CoreDataStack.swift in Sources */,
+				DC0375BD1F68B39D00232C18 /* DetailedViewController.swift in Sources */,
 				DCB0FDBE1F6789C90027D75D /* PinFrame+CoreDataClass.swift in Sources */,
 				DCB0FDBF1F6789C90027D75D /* PinFrame+CoreDataProperties.swift in Sources */,
 				DCB0FD811F6746090027D75D /* VConstant.swift in Sources */,
@@ -376,7 +390,9 @@
 				DCB0FD761F671B460027D75D /* CoreDataTableViewController.swift in Sources */,
 				DCB0FD371F6713050027D75D /* AppDelegate.swift in Sources */,
 				DCB0FDBC1F6789C90027D75D /* PhotoFrame+CoreDataClass.swift in Sources */,
+				DC2D806A1F69BEBA00CAE050 /* SwiftHelperExtension.swift in Sources */,
 				DCB0FD871F6750DD0027D75D /* MapViewDelegateMethods.swift in Sources */,
+				DC0375BF1F68B46300232C18 /* CollectionViewDelegates.swift in Sources */,
 				DCB0FD7C1F673CD50027D75D /* VTDataModel.xcdatamodeld in Sources */,
 				DCB0FDC41F67955B0027D75D /* DebugM.swift in Sources */,
 			);

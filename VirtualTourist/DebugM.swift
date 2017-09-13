@@ -10,7 +10,7 @@ import Foundation
 
 // This file creates some helping printing debugging functions
 class DebugM {
-    static func log( msg:String) {
+    static func log( _ msg:String) {
         if(true) {
             print(msg)
         }
