@@ -45,8 +45,12 @@ extension MapViewController: MKMapViewDelegate {
             executeSearch()
             // then context delete? i think so?
             if let pinFrameSet = fetchedResultsController?.fetchedObjects as? [PinFrame] {
-                if pinFrameSet.count == 1 {
-                    removePin(pinFrame: pinFrameSet[0])
+                if pinFrameSet.count >= 1 {
+                    // delete the whole thing!
+                    for pinFrame in pinFrameSet {
+                        context.delete(pinFrame)
+                    }
+
                 } else {
                     DebugM.log(msg: "Failed to get that particular annotation or got a list of them: duplicates!")
                 }
@@ -55,6 +59,11 @@ extension MapViewController: MKMapViewDelegate {
             // successfully remove from coredatastack
             // now remove from mapView
             mapView.removeAnnotation(view.annotation!)
+        }
+        
+        // This is the section for detailed MapView segue and etc
+        else{
+            
         }
         
     }

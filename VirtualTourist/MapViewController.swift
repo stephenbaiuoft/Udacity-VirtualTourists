@@ -12,6 +12,7 @@ import CoreData
 
 class MapViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var textLabel: UILabel!
     
     var editButton: UIBarButtonItem!
     var doneButton: UIBarButtonItem!
@@ -19,9 +20,18 @@ class MapViewController: UIViewController {
     var stack: CoreDataStack!
     var context: NSManagedObjectContext!
     var removeAnnotation: Bool = false
+    
+    // variables to store so no need to re-initialize
+    var showMapFrame: CGRect!
+    var hideMapFrame: CGRect!
+    var showLabelFrame: CGRect!
+    var hideLabelFrame: CGRect!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        // initialize miscellaneous variables
+        initVariables()
+        
         // initialize navigation right bar item
         loadBarButtonItem()
         
@@ -60,9 +70,20 @@ class MapViewController: UIViewController {
         
         if(removeAnnotation){
             navigationItem.rightBarButtonItem = doneButton
+            UIView.animate(withDuration: 0.4, animations: {
+                
+                self.mapView.frame = self.hideMapFrame
+                // because of the navigation item which is also included in view
+                self.textLabel.frame = self.showLabelFrame
+                
+            })
             
         } else {
             navigationItem.rightBarButtonItem = editButton
+            UIView.animate(withDuration: 0.4, animations: {
+                self.mapView.frame = self.showMapFrame
+                self.textLabel.frame = self.hideLabelFrame
+            })
         }
         
     }
@@ -74,8 +95,8 @@ class MapViewController: UIViewController {
         let annotation = MKPointAnnotation()
         annotation.coordinate = location
         
-        // Only Add Once Started Detecting Long Pressing
-        if gestureRecognized.state == UIGestureRecognizerState.began {
+        // Only Add Once Started Detecting Long Pressing && Not in Editing Mode
+        if ( !removeAnnotation && gestureRecognized.state == UIGestureRecognizerState.began) {
             mapView.addAnnotation(annotation)
             // add CoreDataModel
             addPin(annotation: annotation)
@@ -115,6 +136,18 @@ class MapViewController: UIViewController {
 
 // MARK: back-end helping functions for MapViewController
 extension MapViewController {
+    
+    // initialize miscellaneous variables for VC
+    func initVariables() {
+        hideMapFrame = CGRect.init(x: 0, y: -50, width: self.view.frame.width, height: self.view.frame.height)
+        // because of the navigation item which is also included in view
+        
+        showLabelFrame = CGRect.init(x: 0, y: view.frame.height - 50, width: self.view.frame.width, height: 50)
+        
+        showMapFrame = CGRect.init(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height )
+        hideLabelFrame = CGRect.init(x: 0, y: self.view.frame.height, width: self.view.frame.width, height: 50)
+    }
+    
     // add to coredatastack
     func addPin( annotation: MKPointAnnotation) {
         let pinFrame =  PinFrame.init(longtitude: annotation.coordinate.longitude,

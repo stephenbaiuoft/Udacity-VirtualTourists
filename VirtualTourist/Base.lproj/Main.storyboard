@@ -43,18 +43,33 @@
                                     <outlet property="delegate" destination="U60-Y4-YUC" id="xXM-CH-NLJ"/>
                                 </connections>
                             </mapView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap Pins to Delete" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="APD-BW-fvJ">
+                                <rect key="frame" x="0.0" y="667" width="375" height="30"/>
+                                <color key="backgroundColor" red="1" green="0.065238596590000003" blue="0.47512565559999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="tintColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="2pn-Ak-ovd"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Lhp-KH-24D" firstAttribute="top" secondItem="UB9-eM-mco" secondAttribute="bottom" id="Mle-K2-q3b"/>
                             <constraint firstItem="UB9-eM-mco" firstAttribute="leading" secondItem="qsc-6Q-5pj" secondAttribute="leading" id="WhD-1w-8DW"/>
                             <constraint firstAttribute="trailing" secondItem="UB9-eM-mco" secondAttribute="trailing" id="cDq-a6-HwE"/>
+                            <constraint firstItem="APD-BW-fvJ" firstAttribute="top" secondItem="UB9-eM-mco" secondAttribute="bottom" id="jpB-d6-piY"/>
                             <constraint firstItem="UB9-eM-mco" firstAttribute="top" secondItem="Nip-sw-7WF" secondAttribute="bottom" id="nQV-lh-KXy"/>
+                            <constraint firstItem="APD-BW-fvJ" firstAttribute="width" secondItem="qsc-6Q-5pj" secondAttribute="width" id="ovV-6S-epQ"/>
+                            <constraint firstItem="APD-BW-fvJ" firstAttribute="centerX" secondItem="qsc-6Q-5pj" secondAttribute="centerX" id="sDj-8j-bT9"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Virtual Tourist" id="B1K-h9-Qph"/>
                     <connections>
                         <outlet property="mapView" destination="UB9-eM-mco" id="w7O-8o-Dwa"/>
+                        <outlet property="textLabel" destination="APD-BW-fvJ" id="cl1-vD-CEQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5T7-Ob-NBf" userLabel="First Responder" sceneMemberID="firstResponder"/>
