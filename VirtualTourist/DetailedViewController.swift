@@ -16,10 +16,12 @@ class DetailedViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     
+    var blockCount = 0
+    
+    // MARK: Variable Section
     var selectedPinFrame: PinFrame!
     var stack: CoreDataStack!
 
-    // MARK: Variable Section
     var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>? {
         didSet{
             
@@ -30,6 +32,7 @@ class DetailedViewController: UIViewController {
         }
     }
     
+    var blockOperationHead: BlockOperation? = nil
     // collectionView section
     let reuseIdentifier = "CellReuseID"
     
@@ -52,8 +55,10 @@ class DetailedViewController: UIViewController {
         // after loadDataModel
         initFetchedResultsController()
         
-        // delegate setup ==> so fetchedReultsController is not nil
+        // delegate setup ==> so fetchedReultsController is not nil!!!
+        // So IMPORTANT that CollectionView HAS TWO DELEGATES!!!
         collectionView.delegate = self
+        collectionView.dataSource = self
         
         // loadDataModel
         loadDataForCollectionView()

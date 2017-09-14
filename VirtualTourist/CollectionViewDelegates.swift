@@ -25,9 +25,20 @@ extension DetailedViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
         if let fr = fetchedResultsController {
-            return (fr.fetchedObjects?.count)!
+            // important to return that particular section number of Objects!!
+            let tmp = fr.sections![section].numberOfObjects
+            
+            return (fr.sections![section].numberOfObjects)
         } else {
             return 0
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, titleForHeaderInSection section: Int) -> String? {
+        if let fc = fetchedResultsController {
+            return fc.sections![section].name
+        } else {
+            return nil
         }
     }
     
@@ -59,41 +70,112 @@ extension DetailedViewController: UICollectionViewDelegate {
 // This is how fetchedResultsController notifies collectionView
 extension DetailedViewController: NSFetchedResultsControllerDelegate {
     
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        // initializes this blockOperationHead so continuously update operations can be added to
+        blockOperationHead = BlockOperation.init(block: {
+            // do nothing?
+        })
+        
+    }
+    
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
         
         let set = IndexSet(integer: sectionIndex)
-        collectionView.performBatchUpdates({
+
             switch (type) {
             case .insert:
-                self.collectionView.insertSections(set)
+                self.blockOperationHead?.addExecutionBlock {
+                    self.collectionView.insertSections(set)
+                }
             case .delete:
-                self.collectionView.deleteSections(set)
+                self.blockOperationHead?.addExecutionBlock {
+                    self.collectionView.deleteSections(set)
+                }
+
             default:
                 // irrelevant in our case
                 break
             }
-        }, completion: nil)
-        
-        
     }
+    
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         
-        collectionView.performBatchUpdates({
+
             switch(type) {
             case .insert:
-                self.collectionView.insertItems(at: [newIndexPath!])
+                guard let newIndexPath = newIndexPath else {
+                    return
+                }
+                self.blockOperationHead?.addExecutionBlock {
+                    self.collectionView.insertItems(at: [newIndexPath])
+                    
+                    self.blockCount += 1
+                }
+
             case .delete:
-                self.collectionView.deleteItems(at: [indexPath!])
+                guard let indexPath = indexPath else {
+                    return
+                }
+                self.blockOperationHead?.addExecutionBlock {
+                    self.collectionView.deleteItems(at: [indexPath])
+                    
+                    self.blockCount += 1
+                }
+
             case .update:
-                self.collectionView.reloadItems(at: [indexPath!])
+                guard let indexPath = indexPath else {
+                    return
+                }
+                self.blockOperationHead?.addExecutionBlock {
+                    self.collectionView.reloadItems(at: [indexPath])
+                    
+                    self.blockCount += 1
+                }
+
             //tableView.reloadRows(at: [indexPath!], with: .fade)
             case .move:
-                self.collectionView.deleteItems(at: [indexPath!])
-                self.collectionView.insertItems(at: [newIndexPath!])
+                guard let indexPath = indexPath, let newIndexPath = newIndexPath
+                else {
+                    return
+                }
+                self.blockOperationHead?.addExecutionBlock {
+                    self.collectionView.deleteItems(at: [indexPath])
+                    self.collectionView.insertItems(at: [newIndexPath])
+                    
+                    self.blockCount += 1
+                }
             }
-        }, completion: nil)
         
     }
     
+    // didChangeContent: all the changes have been sent to fetchedResultsController 
+    // through debugging: we know that fetchedResultsController receives changes continuously for a period of time!
+    // So group up all the changes for collectionView delegates and take effect of these changes here
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        if (blockOperationHead != nil) {
+            print("blockOperationHead has been initialized for sure")
+        } else{
+            print("is this what the problem is?")
+        }
+        let tmp = blockOperationHead!.executionBlocks.count
+        
+        print ( "# of operations is: \(tmp)" )
+        print   ("# of countBlobkcs is \(blockCount)")
+        
+        collectionView.performBatchUpdates({
+            self.blockOperationHead?.start()
+            
+        }) { (success) in
+            if(success) {
+                print("Successfully done performBatchUpdates")
+            } else {
+                print("Failed to performBatchUpdates to collectionView")
+            }
+        }
+    }
+
+    
+
 }
