@@ -71,8 +71,6 @@ extension DetailedViewController: UICollectionViewDelegate {
 extension DetailedViewController: NSFetchedResultsControllerDelegate {
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        // initializes this blockOperationHead so continuously update operations can be added to
-        //blockOperationSet = [BlockOperation]()
         print( " number of blockOperationSet in the beginning: \(blockOperationSet.count)" )
     }
     
@@ -87,9 +85,9 @@ extension DetailedViewController: NSFetchedResultsControllerDelegate {
                 }))
                 
             case .delete:
-                
+                blockOperationSet.append(BlockOperation.init(block: {
                     self.collectionView.deleteSections(set)
-                
+                }))
 
             default:
                 // irrelevant in our case
@@ -105,27 +103,27 @@ extension DetailedViewController: NSFetchedResultsControllerDelegate {
             case .insert:
                 self.blockCount += 1
                 print("blockCount currently is: \(self.blockCount)")
+                
                 self.blockOperationSet.append(BlockOperation.init(block: {
                     self.collectionView.insertItems(at: [newIndexPath!])
                 }))
 
             case .delete:
-         
-                self.collectionView.deleteItems(at: [indexPath!])
-                self.blockCount += 1
-                
-
+                self.blockOperationSet.append(BlockOperation.init(block: { 
+                    self.collectionView.deleteItems(at: [indexPath!])
+                }))
+        
             case .update:
-                self.collectionView.reloadItems(at: [indexPath!])
-                self.blockCount += 1
-            
-
-            //tableView.reloadRows(at: [indexPath!], with: .fade)
+                self.blockOperationSet.append(BlockOperation.init(block: { 
+                    self.collectionView.reloadItems(at: [indexPath!])
+                }))
+                
             case .move:
-                self.collectionView.deleteItems(at: [indexPath!])
-                self.collectionView.insertItems(at: [newIndexPath!])
+                self.blockOperationSet.append(BlockOperation.init(block: { 
+                    self.collectionView.deleteItems(at: [indexPath!])
+                    self.collectionView.insertItems(at: [newIndexPath!])
+                }))
                 self.blockCount += 1
-            
             }
         
     }

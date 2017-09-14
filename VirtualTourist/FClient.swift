@@ -24,8 +24,14 @@ class FClient {
         loadMethodParameters(methodParameters: &methodParameters)
         
         // add the longtitude & latitude argument
-        methodParameters[VConstant.FlickrParameterKeys.BoundingBox]
-            = getBBox(longtitude: longtitude, latitude: latitude) as AnyObject
+        
+//        methodParameters[VConstant.FlickrParameterKeys.BoundingBox]
+//            = getBBox(longtitude: longtitude, latitude: latitude) as AnyObject
+        let latitude = latitude.rounded(toPlaces: 2)
+        let longtitude = longtitude.rounded(toPlaces: 2)
+        
+        methodParameters[VConstant.FlickrParameterKeys.Latitude] = latitude as AnyObject
+        methodParameters[VConstant.FlickrParameterKeys.Longitude] = longtitude as AnyObject
         
         getPageLimitFromFlickr(methodParameters) { (pageLimit, errorString) in
             // successful
@@ -251,14 +257,19 @@ extension FClient {
     
         let latitude = latitude.rounded(toPlaces: 2)
         let longtitude = longtitude.rounded(toPlaces: 2)
+        print("latitude \(latitude), longtitude \(longtitude)")
     
-        let latitudeMin = min( VConstant.Flickr.SearchLatRange.0, latitude - VConstant.Flickr.SearchBBoxHalfHeight )
-        let latitudeMax = max( VConstant.Flickr.SearchLatRange.1, latitude + VConstant.Flickr.SearchBBoxHalfHeight)
+        let latitudeMin = max( VConstant.Flickr.SearchLatRange.0, latitude - VConstant.Flickr.SearchBBoxHalfHeight )
+        let latitudeMax = min( VConstant.Flickr.SearchLatRange.1, latitude + VConstant.Flickr.SearchBBoxHalfHeight)
         
         
-        let longtitudeMin =  min( VConstant.Flickr.SearchLonRange.0, longtitude - VConstant.Flickr.SearchBBoxHalfWidth )
-        let longtitudeMax = max( VConstant.Flickr.SearchLonRange.1, longtitude + VConstant.Flickr.SearchBBoxHalfWidth )
+        let longtitudeMin = max( VConstant.Flickr.SearchLonRange.0, longtitude - VConstant.Flickr.SearchBBoxHalfWidth )
+        let longtitudeMax = min( VConstant.Flickr.SearchLonRange.1, longtitude + VConstant.Flickr.SearchBBoxHalfWidth )
+        
+        print(String(longtitudeMin) + "," + String(latitudeMin) + "," + String(longtitudeMax) + ","  + String(latitudeMax))
+        
         return String(longtitudeMin) + "," + String(latitudeMin) + "," + String(longtitudeMax) + ","  + String(latitudeMax)
+        
     }
 
     

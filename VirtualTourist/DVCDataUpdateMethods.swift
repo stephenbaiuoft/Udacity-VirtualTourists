@@ -17,11 +17,17 @@ import CoreData
 extension DetailedViewController {
     // This function set the fetchedResultsController
     func initFetchedResultsController() {
+        // generate the query such that photoFrames belong to the selectedPinFrame
         let fr = NSFetchRequest<NSFetchRequestResult>.init(entityName: "PhotoFrame")
-        fr.sortDescriptors = []
-        fetchedResultsController = NSFetchedResultsController.init(fetchRequest: fr, managedObjectContext: stack.context,
-                                                                   sectionNameKeyPath: nil, cacheName: nil)
+        let predicate = NSPredicate.init(format: "pinframe = %@", argumentArray: [selectedPinFrame!])
+        fr.predicate = predicate
         
+        fr.sortDescriptors = []
+        
+        fetchedResultsController
+            = NSFetchedResultsController.init(fetchRequest: fr,
+                                              managedObjectContext: stack.persistingContext,
+                                              sectionNameKeyPath: nil, cacheName: nil)
     }
     
     // This function load image data for collectionView
@@ -29,7 +35,7 @@ extension DetailedViewController {
         
         // data already in coredatastack
         if selectedPinFrame.requested {
-            
+            print("Previous imageDatas already exists ==> load these images ")
         }
         // data is not pulled from Flickr yet, make the Flickr request
         else {

@@ -24,6 +24,7 @@ extension MapViewController: MKMapViewDelegate {
         return pinView
     }
     
+    // MARK: a map annotation is selected
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         DebugM.log( "Entered mapView selection annotation delegation methods")
         

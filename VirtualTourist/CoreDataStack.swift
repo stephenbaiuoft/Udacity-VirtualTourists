@@ -117,6 +117,7 @@ extension CoreDataStack {
             // can work
             do {
                 // backgroundContext.save() is the built-in function that notifies its parent context
+                print("saving to backgroundContext!!!")
                 try self.backgroundContext.save()
             } catch {
                 fatalError("Error while saving backgroundContext: \(error)")
@@ -148,6 +149,7 @@ extension CoreDataStack {
                 // now we save in the background
                 self.persistingContext.perform() {
                     do {
+                        print("persistingContext saving to dbURL")
                         try self.persistingContext.save()
                     } catch {
                         fatalError("Error while saving persisting context: \(error)")

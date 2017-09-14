@@ -22,8 +22,8 @@ class VConstant{
         static let APIHost = "api.flickr.com"
         static let APIPath = "/services/rest"
         
-        static let SearchBBoxHalfWidth = 1.0
-        static let SearchBBoxHalfHeight = 1.0
+        static let SearchBBoxHalfWidth = 0.02
+        static let SearchBBoxHalfHeight = 0.02
         static let SearchLatRange = (-90.0, 90.0)
         static let SearchLonRange = (-180.0, 180.0)
     }
@@ -40,6 +40,8 @@ class VConstant{
         static let Text = "text"
         static let BoundingBox = "bbox"
         static let Page = "page"
+        static let Latitude = "lat"
+        static let Longitude = "lon"
     }
     
     // MARK: Flickr Parameter Values
@@ -49,7 +51,6 @@ class VConstant{
         static let ResponseFormat = "json"
         static let DisableJSONCallback = "1" /* 1 means "yes" */
         static let GalleryPhotosMethod = "flickr.galleries.getPhotos"
-        static let GalleryID = "5704-72157622566655097"
         static let MediumURL = "url_m"
         static let UseSafeSearch = "1"
     }

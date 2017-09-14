@@ -50,7 +50,7 @@ class MapViewController: UIViewController {
         // so important to know it is added this way!!!
         let uilpgr = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(gestureRecognized:)))
         
-        //long press (2 sec duration)
+        //long press (1 sec duration)
         uilpgr.minimumPressDuration = 1
         mapView.addGestureRecognizer(uilpgr)
         
@@ -120,7 +120,7 @@ class MapViewController: UIViewController {
         fr.sortDescriptors = []
         fr.fetchLimit = 100
         // Create the FetchedResultsController ==> backgroundContext!
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fr, managedObjectContext: stack.backgroundContext, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fr, managedObjectContext: stack.persistingContext, sectionNameKeyPath: nil, cacheName: nil)
         
         // perform fetch request and then we can access results
         executeSearch()
@@ -158,9 +158,15 @@ extension MapViewController {
     
     // add to coredatastack ==> pinFrame added to backgroundContext!!!
     func addPin( annotation: MKPointAnnotation) {
-        let pinFrame =  PinFrame.init(longtitude: annotation.coordinate.longitude,
-                                      latitude: annotation.coordinate.latitude, context: stack.backgroundContext)
-        DebugM.log("pinFrame object created: \(pinFrame)")
+        
+        // Let backgroundBatch Option handle this!
+        stack.performBackgroundBatchOperation { (workerContext) in
+            
+            let pinFrame =  PinFrame.init(longtitude: annotation.coordinate.longitude,
+                                          latitude: annotation.coordinate.latitude, context: workerContext)
+            DebugM.log("pinFrame object created: \(pinFrame)")
+        }
+
     }
     
     // remove from coredatastack given selected pinFrame

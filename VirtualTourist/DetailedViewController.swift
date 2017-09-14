@@ -17,6 +17,7 @@ class DetailedViewController: UIViewController {
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     
     var blockCount = 0
+    var coordinate: CLLocationCoordinate2D!
     
     // MARK: Variable Section
     var selectedPinFrame: PinFrame!
@@ -28,6 +29,7 @@ class DetailedViewController: UIViewController {
             fetchedResultsController?.delegate = self
             executeSearch()
             // reload data for collectionViewController
+            collectionView.reloadData()
 
         }
     }
@@ -37,7 +39,8 @@ class DetailedViewController: UIViewController {
     let reuseIdentifier = "CellReuseID"
     
     // flowLayout Variables
-    let cellSpace:CGFloat = 10.0
+    let cellSpace:CGFloat = 5.0
+    let edgeSpace:CGFloat = 3.0
     let itemsPerRow: CGFloat = 3
     var didLoadView = false
     
@@ -56,7 +59,6 @@ class DetailedViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         
-        
         // create fetchResultsController first ==> so context will notfiy FetchedResultsDelegate
         // after loadDataModel
         initFetchedResultsController()
@@ -67,14 +69,27 @@ class DetailedViewController: UIViewController {
         
         // set flowlayout
         setFlowLayout(size: view.frame.width)
-
+        didLoadView = true        
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // asynchrnously
+        addToMapView()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        // asynchrnously
+        removeFromMapView()
     }
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         
         if(didLoadView) {
+            print("viewWillTransition with width: \(size.width)" )
             setFlowLayout(size: size.width)
         }
     }
@@ -83,13 +98,35 @@ class DetailedViewController: UIViewController {
 
 // MARK: Back end Logical Functions
 extension DetailedViewController {
-
+    
+    func addToMapView() {
+        DispatchQueue.main.async {
+            self.coordinate = CLLocationCoordinate2D.init(latitude: self.selectedPinFrame.latitude,
+                                                        longitude: self.selectedPinFrame.longtitude)
+            
+            let coordinateRegion = MKCoordinateRegionMakeWithDistance(self.coordinate, 3000, 3000)
+            self.mapView.setRegion(coordinateRegion, animated: true)
+            
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = self.coordinate
+            self.mapView.addAnnotation(annotation)
+        }
+    }
+    
+    func removeFromMapView() {
+        DispatchQueue.main.async {
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = self.coordinate
+            self.mapView.removeAnnotation(annotation)
+        }
+    }
     
     // set equal spacing for based on itemsPerRow
     func setFlowLayout(size: CGFloat) {
-        let dimension = (size - cellSpace * (itemsPerRow + 2)) / itemsPerRow
+        let dimension = (size - cellSpace * (itemsPerRow - 1) - 2 * edgeSpace ) / itemsPerRow
         flowLayout.minimumInteritemSpacing = cellSpace
         flowLayout.minimumLineSpacing = cellSpace
         flowLayout.itemSize = CGSize(width: dimension, height: dimension)
+        flowLayout.sectionInset = UIEdgeInsetsMake(edgeSpace, edgeSpace, edgeSpace, edgeSpace)
     }
 }
