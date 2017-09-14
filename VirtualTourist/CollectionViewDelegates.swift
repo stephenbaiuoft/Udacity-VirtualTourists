@@ -72,10 +72,8 @@ extension DetailedViewController: NSFetchedResultsControllerDelegate {
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         // initializes this blockOperationHead so continuously update operations can be added to
-        blockOperationHead = BlockOperation.init(block: {
-            // do nothing?
-        })
-        
+        //blockOperationSet = [BlockOperation]()
+        print( " number of blockOperationSet in the beginning: \(blockOperationSet.count)" )
     }
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
@@ -84,13 +82,14 @@ extension DetailedViewController: NSFetchedResultsControllerDelegate {
 
             switch (type) {
             case .insert:
-                self.blockOperationHead?.addExecutionBlock {
-                    self.collectionView.insertSections(set)
-                }
+                blockOperationSet.append(BlockOperation.init(block: {
+                     self.collectionView.insertSections(set)
+                }))
+                
             case .delete:
-                self.blockOperationHead?.addExecutionBlock {
+                
                     self.collectionView.deleteSections(set)
-                }
+                
 
             default:
                 // irrelevant in our case
@@ -104,47 +103,29 @@ extension DetailedViewController: NSFetchedResultsControllerDelegate {
 
             switch(type) {
             case .insert:
-                guard let newIndexPath = newIndexPath else {
-                    return
-                }
-                self.blockOperationHead?.addExecutionBlock {
-                    self.collectionView.insertItems(at: [newIndexPath])
-                    
-                    self.blockCount += 1
-                }
+                self.blockCount += 1
+                print("blockCount currently is: \(self.blockCount)")
+                self.blockOperationSet.append(BlockOperation.init(block: {
+                    self.collectionView.insertItems(at: [newIndexPath!])
+                }))
 
             case .delete:
-                guard let indexPath = indexPath else {
-                    return
-                }
-                self.blockOperationHead?.addExecutionBlock {
-                    self.collectionView.deleteItems(at: [indexPath])
-                    
-                    self.blockCount += 1
-                }
+         
+                self.collectionView.deleteItems(at: [indexPath!])
+                self.blockCount += 1
+                
 
             case .update:
-                guard let indexPath = indexPath else {
-                    return
-                }
-                self.blockOperationHead?.addExecutionBlock {
-                    self.collectionView.reloadItems(at: [indexPath])
-                    
-                    self.blockCount += 1
-                }
+                self.collectionView.reloadItems(at: [indexPath!])
+                self.blockCount += 1
+            
 
             //tableView.reloadRows(at: [indexPath!], with: .fade)
             case .move:
-                guard let indexPath = indexPath, let newIndexPath = newIndexPath
-                else {
-                    return
-                }
-                self.blockOperationHead?.addExecutionBlock {
-                    self.collectionView.deleteItems(at: [indexPath])
-                    self.collectionView.insertItems(at: [newIndexPath])
-                    
-                    self.blockCount += 1
-                }
+                self.collectionView.deleteItems(at: [indexPath!])
+                self.collectionView.insertItems(at: [newIndexPath!])
+                self.blockCount += 1
+            
             }
         
     }
@@ -154,22 +135,17 @@ extension DetailedViewController: NSFetchedResultsControllerDelegate {
     // So group up all the changes for collectionView delegates and take effect of these changes here
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        if (blockOperationHead != nil) {
-            print("blockOperationHead has been initialized for sure")
-        } else{
-            print("is this what the problem is?")
-        }
-        let tmp = blockOperationHead!.executionBlocks.count
-        
-        print ( "# of operations is: \(tmp)" )
-        print   ("# of countBlobkcs is \(blockCount)")
+
         
         collectionView.performBatchUpdates({
-            self.blockOperationHead?.start()
+            for blockOp in self.blockOperationSet {
+                blockOp.start()
+            }
             
         }) { (success) in
             if(success) {
                 print("Successfully done performBatchUpdates")
+                self.blockOperationSet.removeAll()
             } else {
                 print("Failed to performBatchUpdates to collectionView")
             }

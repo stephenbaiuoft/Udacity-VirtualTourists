@@ -32,7 +32,7 @@ class DetailedViewController: UIViewController {
         }
     }
     
-    var blockOperationHead: BlockOperation? = nil
+    var blockOperationSet = [BlockOperation]()
     // collectionView section
     let reuseIdentifier = "CellReuseID"
     
@@ -50,15 +50,16 @@ class DetailedViewController: UIViewController {
         // set up stack which points to the same entire application stack (datastack)
         let delegate = UIApplication.shared.delegate as! AppDelegate
         stack = delegate.stack
-        
-        // create fetchResultsController first ==> so context will notfiy FetchedResultsDelegate
-        // after loadDataModel
-        initFetchedResultsController()
-        
+
         // delegate setup ==> so fetchedReultsController is not nil!!!
         // So IMPORTANT that CollectionView HAS TWO DELEGATES!!!
         collectionView.delegate = self
         collectionView.dataSource = self
+        
+        
+        // create fetchResultsController first ==> so context will notfiy FetchedResultsDelegate
+        // after loadDataModel
+        initFetchedResultsController()
         
         // loadDataModel
         loadDataForCollectionView()
