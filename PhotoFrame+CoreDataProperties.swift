@@ -2,7 +2,7 @@
 //  PhotoFrame+CoreDataProperties.swift
 //  VirtualTourist
 //
-//  Created by stephen on 9/11/17.
+//  Created by stephen on 9/13/17.
 //  Copyright © 2017 Bai Cloud Tech Co. All rights reserved.
 //
 

@@ -11,6 +11,9 @@
 		DC0375BF1F68B46300232C18 /* CollectionViewDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0375BE1F68B46300232C18 /* CollectionViewDelegates.swift */; };
 		DC0375C11F68B6D900232C18 /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0375C01F68B6D900232C18 /* ImageCollectionViewCell.swift */; };
 		DC2D806A1F69BEBA00CAE050 /* SwiftHelperExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2D80691F69BEBA00CAE050 /* SwiftHelperExtension.swift */; };
+		DC2D80721F69EE7C00CAE050 /* PhotoFrame+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2D80701F69EE7C00CAE050 /* PhotoFrame+CoreDataProperties.swift */; };
+		DC2D80731F69EE7C00CAE050 /* PinFrame+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2D80711F69EE7C00CAE050 /* PinFrame+CoreDataProperties.swift */; };
+		DC2D80751F69F30800CAE050 /* DVCDataUpdateMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2D80741F69F30800CAE050 /* DVCDataUpdateMethods.swift */; };
 		DCB0FD371F6713050027D75D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCB0FD361F6713050027D75D /* AppDelegate.swift */; };
 		DCB0FD3C1F6713050027D75D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DCB0FD3A1F6713050027D75D /* Main.storyboard */; };
 		DCB0FD3E1F6713050027D75D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DCB0FD3D1F6713050027D75D /* Assets.xcassets */; };
@@ -26,9 +29,7 @@
 		DCB0FD831F6749FD0027D75D /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCB0FD821F6749FD0027D75D /* MapViewController.swift */; };
 		DCB0FD871F6750DD0027D75D /* MapViewDelegateMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCB0FD861F6750DD0027D75D /* MapViewDelegateMethods.swift */; };
 		DCB0FDBC1F6789C90027D75D /* PhotoFrame+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCB0FDB81F6789C90027D75D /* PhotoFrame+CoreDataClass.swift */; };
-		DCB0FDBD1F6789C90027D75D /* PhotoFrame+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCB0FDB91F6789C90027D75D /* PhotoFrame+CoreDataProperties.swift */; };
 		DCB0FDBE1F6789C90027D75D /* PinFrame+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCB0FDBA1F6789C90027D75D /* PinFrame+CoreDataClass.swift */; };
-		DCB0FDBF1F6789C90027D75D /* PinFrame+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCB0FDBB1F6789C90027D75D /* PinFrame+CoreDataProperties.swift */; };
 		DCB0FDC41F67955B0027D75D /* DebugM.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCB0FDC31F67955B0027D75D /* DebugM.swift */; };
 /* End PBXBuildFile section */
 
@@ -54,6 +55,10 @@
 		DC0375BE1F68B46300232C18 /* CollectionViewDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewDelegates.swift; sourceTree = "<group>"; };
 		DC0375C01F68B6D900232C18 /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		DC2D80691F69BEBA00CAE050 /* SwiftHelperExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftHelperExtension.swift; sourceTree = "<group>"; };
+		DC2D806B1F69EDC200CAE050 /* VTDataModel2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = VTDataModel2.xcdatamodel; sourceTree = "<group>"; };
+		DC2D80701F69EE7C00CAE050 /* PhotoFrame+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "PhotoFrame+CoreDataProperties.swift"; path = "../PhotoFrame+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		DC2D80711F69EE7C00CAE050 /* PinFrame+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "PinFrame+CoreDataProperties.swift"; path = "../PinFrame+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		DC2D80741F69F30800CAE050 /* DVCDataUpdateMethods.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DVCDataUpdateMethods.swift; sourceTree = "<group>"; };
 		DCB0FD331F6713050027D75D /* VirtualTourist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VirtualTourist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCB0FD361F6713050027D75D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DCB0FD3B1F6713050027D75D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -76,9 +81,7 @@
 		DCB0FD861F6750DD0027D75D /* MapViewDelegateMethods.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewDelegateMethods.swift; sourceTree = "<group>"; };
 		DCB0FDA31F6787AE0027D75D /* VirtualTourist-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VirtualTourist-Bridging-Header.h"; sourceTree = "<group>"; };
 		DCB0FDB81F6789C90027D75D /* PhotoFrame+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "PhotoFrame+CoreDataClass.swift"; path = "../PhotoFrame+CoreDataClass.swift"; sourceTree = "<group>"; };
-		DCB0FDB91F6789C90027D75D /* PhotoFrame+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "PhotoFrame+CoreDataProperties.swift"; path = "../PhotoFrame+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		DCB0FDBA1F6789C90027D75D /* PinFrame+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "PinFrame+CoreDataClass.swift"; path = "../PinFrame+CoreDataClass.swift"; sourceTree = "<group>"; };
-		DCB0FDBB1F6789C90027D75D /* PinFrame+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "PinFrame+CoreDataProperties.swift"; path = "../PinFrame+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		DCB0FDC31F67955B0027D75D /* DebugM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DebugM.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -111,6 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				DC0375BC1F68B39D00232C18 /* DetailedViewController.swift */,
+				DC2D80741F69F30800CAE050 /* DVCDataUpdateMethods.swift */,
 				DC0375BE1F68B46300232C18 /* CollectionViewDelegates.swift */,
 				DC0375C01F68B6D900232C18 /* ImageCollectionViewCell.swift */,
 			);
@@ -205,10 +209,10 @@
 		DCB0FD791F673CAD0027D75D /* Core Data Model */ = {
 			isa = PBXGroup;
 			children = (
+				DC2D80711F69EE7C00CAE050 /* PinFrame+CoreDataProperties.swift */,
+				DC2D80701F69EE7C00CAE050 /* PhotoFrame+CoreDataProperties.swift */,
 				DCB0FDB81F6789C90027D75D /* PhotoFrame+CoreDataClass.swift */,
-				DCB0FDB91F6789C90027D75D /* PhotoFrame+CoreDataProperties.swift */,
 				DCB0FDBA1F6789C90027D75D /* PinFrame+CoreDataClass.swift */,
-				DCB0FDBB1F6789C90027D75D /* PinFrame+CoreDataProperties.swift */,
 				DCB0FD7A1F673CD50027D75D /* VTDataModel.xcdatamodeld */,
 			);
 			name = "Core Data Model";
@@ -382,11 +386,10 @@
 				DCB0FD711F6719E70027D75D /* CoreDataStack.swift in Sources */,
 				DC0375BD1F68B39D00232C18 /* DetailedViewController.swift in Sources */,
 				DCB0FDBE1F6789C90027D75D /* PinFrame+CoreDataClass.swift in Sources */,
-				DCB0FDBF1F6789C90027D75D /* PinFrame+CoreDataProperties.swift in Sources */,
 				DCB0FD811F6746090027D75D /* VConstant.swift in Sources */,
 				DCB0FD831F6749FD0027D75D /* MapViewController.swift in Sources */,
 				DCB0FD7E1F6745E30027D75D /* FClient.swift in Sources */,
-				DCB0FDBD1F6789C90027D75D /* PhotoFrame+CoreDataProperties.swift in Sources */,
+				DC2D80721F69EE7C00CAE050 /* PhotoFrame+CoreDataProperties.swift in Sources */,
 				DCB0FD761F671B460027D75D /* CoreDataTableViewController.swift in Sources */,
 				DCB0FD371F6713050027D75D /* AppDelegate.swift in Sources */,
 				DCB0FDBC1F6789C90027D75D /* PhotoFrame+CoreDataClass.swift in Sources */,
@@ -395,6 +398,8 @@
 				DC0375BF1F68B46300232C18 /* CollectionViewDelegates.swift in Sources */,
 				DCB0FD7C1F673CD50027D75D /* VTDataModel.xcdatamodeld in Sources */,
 				DCB0FDC41F67955B0027D75D /* DebugM.swift in Sources */,
+				DC2D80751F69F30800CAE050 /* DVCDataUpdateMethods.swift in Sources */,
+				DC2D80731F69EE7C00CAE050 /* PinFrame+CoreDataProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -678,9 +683,10 @@
 		DCB0FD7A1F673CD50027D75D /* VTDataModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				DC2D806B1F69EDC200CAE050 /* VTDataModel2.xcdatamodel */,
 				DCB0FD7B1F673CD50027D75D /* VTDataModel.xcdatamodel */,
 			);
-			currentVersion = DCB0FD7B1F673CD50027D75D /* VTDataModel.xcdatamodel */;
+			currentVersion = DC2D806B1F69EDC200CAE050 /* VTDataModel2.xcdatamodel */;
 			path = VTDataModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

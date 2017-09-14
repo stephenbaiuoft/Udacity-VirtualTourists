@@ -2,7 +2,7 @@
 //  PinFrame+CoreDataProperties.swift
 //  VirtualTourist
 //
-//  Created by stephen on 9/11/17.
+//  Created by stephen on 9/13/17.
 //  Copyright © 2017 Bai Cloud Tech Co. All rights reserved.
 //
 
@@ -18,6 +18,7 @@ extension PinFrame {
 
     @NSManaged public var latitude: Double
     @NSManaged public var longtitude: Double
+    @NSManaged public var requested: Bool
     @NSManaged public var photoframe: NSSet?
 
 }

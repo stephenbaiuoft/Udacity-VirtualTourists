@@ -17,7 +17,7 @@ class FClient {
     // MARK: This Region is for HTTPS Request Methods and Higher Logic Handling
     
     // this is the public function for request flickr data based on longtitude & latitude
-    func requestFlickrData( longtitude: Double, latitude: Double, completionHandlerForRequestData: @escaping(_ dataSet: [Data]?, _ errorString: String? ) -> Void) {
+    func requestFlickrData( longtitude: Double, latitude: Double, completionHandlerForRequestData: @escaping(_ dataSet: [NSData]?, _ errorString: String? ) -> Void) {
         
         // load default parameters
         var methodParameters: [String: AnyObject] = [:]
@@ -34,6 +34,7 @@ class FClient {
                 
                 self.getDataFromFlickr(methodParameters, pageNumber: Int(randomPage), completionHandlerForGetData: { (dataSet, errorString) in
                     if(errorString == nil) {
+                        
                         // successful
                         completionHandlerForRequestData(dataSet!, nil)
                     } else {
@@ -115,7 +116,7 @@ class FClient {
     }
     
     // given a randomPageNumber
-    func  getDataFromFlickr( _ methodParameters: [String: AnyObject], pageNumber: Int, completionHandlerForGetData: @escaping( _ photoDataSet:[Data]?, _ errorString: String? )->Void){
+    func  getDataFromFlickr( _ methodParameters: [String: AnyObject], pageNumber: Int, completionHandlerForGetData: @escaping( _ photoDataSet:[NSData]?, _ errorString: String? )->Void){
         let session = URLSession.shared
         // Add additional argument to generate the new url
         
@@ -175,7 +176,7 @@ class FClient {
 
                 
                 // initialize imageDataSet: ignore warning as it's being passed to func addImage
-                var imageDataSet = [Data]()
+                var imageDataSet = [NSData]()
                 
                 if photoArray.count <= 12 {
                     for photo in photoArray {
@@ -204,7 +205,7 @@ class FClient {
     }
     
     // returns the data from urlString; raises error if anywhere off
-    private func addImageDataFromUrlString( photoInfo: [String: AnyObject], imageDataSet: inout [Data] ) {
+    private func addImageDataFromUrlString( photoInfo: [String: AnyObject], imageDataSet: inout [NSData] ) {
         
         guard let imageUrlString = photoInfo[VConstant.FlickrResponseKeys.MediumURL] as? String else {
             // handle error
@@ -212,7 +213,8 @@ class FClient {
         }
         
         let imageUrl = URL.init(string: imageUrlString)
-        if let imageData = try? Data.init(contentsOf: imageUrl!){
+        
+        if let imageData = NSData.init(contentsOf: imageUrl!) {
             imageDataSet.append(imageData)
         }else{
             // error happened return nil

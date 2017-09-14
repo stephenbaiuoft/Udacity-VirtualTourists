@@ -16,20 +16,22 @@ class DetailedViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     
-    var annotation: MKAnnotation? = nil
-    
+    var selectedPinFrame: PinFrame!
+    var stack: CoreDataStack!
 
     // MARK: Variable Section
     var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>? {
         didSet{
+            
             fetchedResultsController?.delegate = self
             executeSearch()
             // reload data for collectionViewController
+
         }
     }
     
     // collectionView section
-    let reuseIdentifier = "CollectionCell"
+    let reuseIdentifier = "CellReuseID"
     
     // flowLayout Variables
     let cellSpace:CGFloat = 10.0
@@ -42,12 +44,24 @@ class DetailedViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         
+        // set up stack which points to the same entire application stack (datastack)
+        let delegate = UIApplication.shared.delegate as! AppDelegate
+        stack = delegate.stack
+        
+        // create fetchResultsController first ==> so context will notfiy FetchedResultsDelegate
+        // after loadDataModel
+        initFetchedResultsController()
+        
+        // delegate setup ==> so fetchedReultsController is not nil
+        collectionView.delegate = self
+        
+        // loadDataModel
+        loadDataForCollectionView()
+        
         
         // set flowlayout
         setFlowLayout(size: view.frame.width)
-        
-        // delegate setup
-        collectionView.delegate = self
+
         
     }
 
@@ -63,15 +77,7 @@ class DetailedViewController: UIViewController {
 
 // MARK: Back end Logical Functions
 extension DetailedViewController {
-    func executeSearch() {
-        if let fc = fetchedResultsController {
-            do {
-                try fc.performFetch()
-            } catch ( let e as NSError) {
-                print("Error while trying to perform a search: \n\(e)\n\(String(describing: fetchedResultsController))")
-            }
-        }
-    }
+
     
     // set equal spacing for based on itemsPerRow
     func setFlowLayout(size: CGFloat) {

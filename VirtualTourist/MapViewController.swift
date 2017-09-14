@@ -119,8 +119,8 @@ class MapViewController: UIViewController {
         let fr = NSFetchRequest<NSFetchRequestResult>(entityName: "PinFrame")
         fr.sortDescriptors = []
         fr.fetchLimit = 100
-        // Create the FetchedResultsController
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fr, managedObjectContext: stack.context, sectionNameKeyPath: nil, cacheName: nil)
+        // Create the FetchedResultsController ==> backgroundContext!
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fr, managedObjectContext: stack.backgroundContext, sectionNameKeyPath: nil, cacheName: nil)
         
         // perform fetch request and then we can access results
         executeSearch()
@@ -156,10 +156,10 @@ extension MapViewController {
         hideLabelFrame = CGRect.init(x: 0, y: self.view.frame.height, width: self.view.frame.width, height: 50)
     }
     
-    // add to coredatastack
+    // add to coredatastack ==> pinFrame added to backgroundContext!!!
     func addPin( annotation: MKPointAnnotation) {
         let pinFrame =  PinFrame.init(longtitude: annotation.coordinate.longitude,
-                                      latitude: annotation.coordinate.latitude, context: stack.context)
+                                      latitude: annotation.coordinate.latitude, context: stack.backgroundContext)
         DebugM.log("pinFrame object created: \(pinFrame)")
     }
     

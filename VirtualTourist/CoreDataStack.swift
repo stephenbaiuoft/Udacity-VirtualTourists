@@ -100,6 +100,9 @@ internal extension CoreDataStack  {
 // MARK: - CoreDataStack (Batch Processing in the Background)
 
 extension CoreDataStack {
+    // performBackgroundBatchOperation is the function to call to commit batch/changes from say PARSE or other servicess
+    // as this function calls backgroundContext.save()
+    
     // Batch is a function signature
     typealias Batch = (_ workerContext: NSManagedObjectContext) -> ()
     

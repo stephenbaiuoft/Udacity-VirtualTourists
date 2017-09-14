@@ -22,6 +22,8 @@ public class PinFrame: NSManagedObject {
             self.init(entity: ent, insertInto: context)
             self.longtitude = longtitude
             self.latitude = latitude
+            // by default set to false
+            self.requested = false
         } else {
             fatalError("Unable to find Entity name of PinFrame!")
         }

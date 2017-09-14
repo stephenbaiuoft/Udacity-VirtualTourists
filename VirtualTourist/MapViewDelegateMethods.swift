@@ -26,36 +26,39 @@ extension MapViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         DebugM.log( "Entered mapView selection annotation delegation methods")
+        
+        // fetch PinFrame by querying
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PinFrame")
+        
+        let latitude = view.annotation?.coordinate.latitude
+        let longtitude = view.annotation?.coordinate.longitude
+        let predicate = NSPredicate.init(format: "(longtitude == %@) AND (latitude == %@)", argumentArray: [longtitude!, latitude!])
+        fetchRequest.predicate = predicate
+        // required by default
+        fetchRequest.sortDescriptors = []
+        
+        fetchedResultsController = NSFetchedResultsController.init(fetchRequest: fetchRequest, managedObjectContext: stack.backgroundContext,
+                                                                   sectionNameKeyPath: nil, cacheName: nil)
+        // now you can execute search
+        executeSearch()
+        
+        guard let selectedPinFrameSet = fetchedResultsController?.fetchedObjects as? [PinFrame] else {
+            DebugM.log("Failed to convert fetchedObjects to PinFrame")
+            return
+        }
+    
         // this is to remove from annotation
         if(removeAnnotation) {
             DebugM.log( "Did select a mkannotationview object")
-            // fetch MkAnnotationObject
-            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PinFrame")
-            
-            let latitude = view.annotation?.coordinate.latitude
-            let longtitude = view.annotation?.coordinate.longitude
-            let predicate = NSPredicate.init(format: "(longtitude == %@) AND (latitude == %@)", argumentArray: [longtitude!, latitude!])
-            fetchRequest.predicate = predicate
-            // required by default
-            fetchRequest.sortDescriptors = []
-            
-            fetchedResultsController = NSFetchedResultsController.init(fetchRequest: fetchRequest, managedObjectContext: stack.context, sectionNameKeyPath: nil, cacheName: nil)
-            
-            // now you can execute search
-            executeSearch()
-            // then context delete? i think so?
-            if let pinFrameSet = fetchedResultsController?.fetchedObjects as? [PinFrame] {
-                if pinFrameSet.count >= 1 {
-                    // delete the whole thing!
-                    for pinFrame in pinFrameSet {
-                        context.delete(pinFrame)
-                    }
 
-                } else {
-                    DebugM.log( "Failed to get that particular annotation or got a list of them: duplicates!")
+            if selectedPinFrameSet.count >= 1 {
+                // delete the whole thing!
+                for pinFrame in selectedPinFrameSet {
+                    context.delete(pinFrame)
                 }
+            } else {
+                DebugM.log( "Failed to get that that particular pinFrame object ")
             }
-            
             // successfully remove from coredatastack
             // now remove from mapView
             mapView.removeAnnotation(view.annotation!)
@@ -65,11 +68,10 @@ extension MapViewController: MKMapViewDelegate {
         else{
             // push to navigationController
             let detailedController = storyboard?.instantiateViewController(withIdentifier: "DetailedViewController") as! DetailedViewController
-            // pass data to controller
-            detailedController.annotation = view.annotation!
+            // pass data to controller: assuming always the first one
+            detailedController.selectedPinFrame = selectedPinFrameSet[0]
             
             // hacky way of changing the navigationController Title ==> have to change back
-            
             navigationItem.title = "OK"
             self.navigationController!.pushViewController(detailedController, animated: true)
         }
