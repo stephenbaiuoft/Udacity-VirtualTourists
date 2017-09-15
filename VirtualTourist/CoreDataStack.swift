@@ -130,7 +130,7 @@ extension CoreDataStack {
 
 extension CoreDataStack {
 
-    func save() {
+    func saveContext() throws{
 
         // We call this synchronously, but it's a very fast
         // operation (it doesn't hit the disk). We need to know
@@ -139,6 +139,7 @@ extension CoreDataStack {
         // in a background queue
         context.performAndWait() {
             
+            // Note context receives changes as we use performBackgroundBatchOperation to set up the connection
             if self.context.hasChanges {
                 do {
                     try self.context.save()
@@ -146,10 +147,11 @@ extension CoreDataStack {
                     fatalError("Error while saving main context: \(error)")
                 }
                 
-                // now we save in the background
+                // context.save() propogates to persistingContext whose parent is the storeCoordinator
+                // call persistingContext.save() to save onto the database
                 self.persistingContext.perform() {
                     do {
-                        print("persistingContext saving to dbURL")
+                        print("persistingContext.save() and this goes to StoreCoordinator(local storage)")
                         try self.persistingContext.save()
                     } catch {
                         fatalError("Error while saving persisting context: \(error)")
@@ -164,8 +166,8 @@ extension CoreDataStack {
         
         if delayInSeconds > 0 {
             do {
-                try self.context.save()
-                print("Autosaving")
+                try saveContext()
+                print("AutoSaving")
             } catch {
                 print("Error while autosaving")
             }

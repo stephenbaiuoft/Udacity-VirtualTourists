@@ -26,8 +26,6 @@ extension DetailedViewController: UICollectionViewDataSource {
         // #warning Incomplete implementation, return the number of items
         if let fr = fetchedResultsController {
             // important to return that particular section number of Objects!!
-            let tmp = fr.sections![section].numberOfObjects
-            
             return (fr.sections![section].numberOfObjects)
         } else {
             return 0
@@ -45,10 +43,33 @@ extension DetailedViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ImageCollectionViewCell
+        let activityIndicator = cell.activityIndicator!
+        
         // configure cell data!
         let photoFrame = fetchedResultsController?.object(at: indexPath) as? PhotoFrame
-        let cdata = photoFrame?.imageData as Data?
-        cell.imageView.image = UIImage.init(data: cdata!)
+        
+        // create activityIndicator & start animating
+        // stop it when imageData finishes loading
+
+
+        activityIndicator.hidesWhenStopped = true
+        
+        print("start animating now!")
+        activityIndicator.startAnimating()
+        
+        DispatchQueue.main.async {
+            
+            // copy of the cell object!!!
+            [cell, photoFrame, activityIndicator] in
+            
+            print("copied cell, photoFrame, activityIndicator")
+            let cdata = photoFrame?.imageData as Data?
+            cell.imageView.image = UIImage.init(data: cdata!)
+            print("stop animating now!")
+            activityIndicator.stopAnimating()
+            
+        }
+        
         return cell
 
     }
@@ -81,11 +102,13 @@ extension DetailedViewController: NSFetchedResultsControllerDelegate {
             switch (type) {
             case .insert:
                 blockOperationSet.append(BlockOperation.init(block: {
+                    [set] in
                      self.collectionView.insertSections(set)
                 }))
                 
             case .delete:
                 blockOperationSet.append(BlockOperation.init(block: {
+                    [set] in
                     self.collectionView.deleteSections(set)
                 }))
 
@@ -105,21 +128,25 @@ extension DetailedViewController: NSFetchedResultsControllerDelegate {
                 print("blockCount currently is: \(self.blockCount)")
                 
                 self.blockOperationSet.append(BlockOperation.init(block: {
+                    [newIndexPath] in
                     self.collectionView.insertItems(at: [newIndexPath!])
                 }))
 
             case .delete:
-                self.blockOperationSet.append(BlockOperation.init(block: { 
+                self.blockOperationSet.append(BlockOperation.init(block: {
+                    [indexPath] in
                     self.collectionView.deleteItems(at: [indexPath!])
                 }))
         
             case .update:
-                self.blockOperationSet.append(BlockOperation.init(block: { 
+                self.blockOperationSet.append(BlockOperation.init(block: {
+                    [indexPath] in
                     self.collectionView.reloadItems(at: [indexPath!])
                 }))
                 
             case .move:
-                self.blockOperationSet.append(BlockOperation.init(block: { 
+                self.blockOperationSet.append(BlockOperation.init(block: {
+                    [indexPath, newIndexPath] in
                     self.collectionView.deleteItems(at: [indexPath!])
                     self.collectionView.insertItems(at: [newIndexPath!])
                 }))

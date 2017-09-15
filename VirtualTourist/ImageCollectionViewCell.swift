@@ -12,6 +12,6 @@ class ImageCollectionViewCell: UICollectionViewCell {
     // !! data is done through the UICollectionDelegate
 
     @IBOutlet weak var imageView: UIImageView!
-        
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
 }
