@@ -159,6 +159,18 @@ extension CoreDataStack {
                 }
             }
         }
+        
+        // Add the case for deletion
+        if persistingContext.hasChanges {
+            persistingContext.perform {
+                do {
+                    print("persistingContext.save() and this goes to StoreCoordinator(local storage)")
+                    try self.persistingContext.save()
+                } catch {
+                    fatalError("Error while saving persisting context: \(error)")
+                }
+            }
+        }
     }
     
     

@@ -171,7 +171,8 @@ extension MapViewController {
     
     // remove from coredatastack given selected pinFrame
     func removePin(pinFrame: PinFrame) {
-        stack.context.delete(pinFrame)
+        stack.persistingContext.delete(pinFrame)
+        
     }
     
     // fetchedResultsController perform search: ==> fetchedResultsController must be initialized

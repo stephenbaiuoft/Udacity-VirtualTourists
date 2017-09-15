@@ -37,16 +37,39 @@ extension MapViewController: MKMapViewDelegate {
         fetchRequest.predicate = predicate
         // required by default
         fetchRequest.sortDescriptors = []
+        var selectedPinFrameSet: [PinFrame]
         
-        fetchedResultsController = NSFetchedResultsController.init(fetchRequest: fetchRequest, managedObjectContext: stack.backgroundContext,
+        // two places: backgroundContext for just creating!  before the autoSave
+        fetchedResultsController = NSFetchedResultsController.init(fetchRequest: fetchRequest, managedObjectContext: stack.persistingContext,
                                                                    sectionNameKeyPath: nil, cacheName: nil)
         // now you can execute search
         executeSearch()
         
-        guard let selectedPinFrameSet = fetchedResultsController?.fetchedObjects as? [PinFrame] else {
+        // logical handling?? backgroundContext or if re-opened ==> we need to read from persistingDataStore?
+        
+        guard let hold = fetchedResultsController?.fetchedObjects as? [PinFrame] else {
             DebugM.log("Failed to convert fetchedObjects to PinFrame")
             return
         }
+        
+        // assign selectedPinFrameSet variable
+        if (hold.count > 0) {
+            selectedPinFrameSet = hold
+        }
+        else {
+            // meaning just created, not in persistentStore yet ==> must be managed by background!
+            fetchedResultsController = NSFetchedResultsController.init(fetchRequest: fetchRequest, managedObjectContext: stack.backgroundContext,
+                                                                       sectionNameKeyPath: nil, cacheName: nil)
+            // now you can execute search
+            executeSearch()
+            // logical handling?? backgroundContext or if re-opened ==> we need to read from persistingDataStore?
+            guard let hold = fetchedResultsController?.fetchedObjects as? [PinFrame] else {
+                DebugM.log("Failed to convert fetchedObjects to PinFrame")
+                return
+            }
+            selectedPinFrameSet = hold
+        }
+        
     
         // this is to remove from annotation
         if(removeAnnotation) {

@@ -36,6 +36,10 @@ extension DetailedViewController {
         // data already in coredatastack
         if selectedPinFrame.requested {
             print("Previous imageDatas already exists ==> load these images ")
+            // only make a request querying local storage
+            initFetchedResultsController()
+            
+            
         }
         // data is not pulled from Flickr yet, make the Flickr request
         else {

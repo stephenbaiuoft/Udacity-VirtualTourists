@@ -61,7 +61,7 @@ class DetailedViewController: UIViewController {
         
         // create fetchResultsController first ==> so context will notfiy FetchedResultsDelegate
         // after loadDataModel
-        initFetchedResultsController()
+        //initFetchedResultsController()
         
         // loadDataModel
         loadDataForCollectionView()
@@ -69,14 +69,15 @@ class DetailedViewController: UIViewController {
         
         // set flowlayout
         setFlowLayout(size: view.frame.width)
-        didLoadView = true        
+        didLoadView = true
         
+        
+        // asynchrnously add the annotation pin
+        addToMapView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        // asynchrnously
-        addToMapView()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
