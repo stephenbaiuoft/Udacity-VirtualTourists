@@ -119,25 +119,21 @@ class MapViewController: UIViewController {
         let fr = NSFetchRequest<NSFetchRequestResult>(entityName: "PinFrame")
         fr.sortDescriptors = []
         fr.fetchLimit = 100
-        // Create the FetchedResultsController ==> backgroundContext!
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fr, managedObjectContext: stack.persistingContext, sectionNameKeyPath: nil, cacheName: nil)
+        // Create the FetchedResultsController ==> context
+        // Note it's propogates all the way back eventually to persisitentContext [That is how I understand it]
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fr, managedObjectContext: stack.context, sectionNameKeyPath: nil, cacheName: nil)
         
         // perform fetch request and then we can access results
         executeSearch()
         
         // let mainQueue handle parsing for now: hopefully it's quick or i'll have to create
-        // background to create mkPoints, and then use mainQueue to update mapView
-        DispatchQueue.main.async {
-            if let fo = self.fetchedResultsController?.fetchedObjects as? [PinFrame]{
-                
-                for pin in fo {
-                    let annotation = MKPointAnnotation();
-                    annotation.coordinate = CLLocationCoordinate2DMake(pin.latitude, pin.longtitude)
-                    self.mapView.addAnnotation(annotation)
-                }
+        if let fo = self.fetchedResultsController?.fetchedObjects as? [PinFrame]{
+            for pin in fo {
+                let annotation = MKPointAnnotation();
+                annotation.coordinate = CLLocationCoordinate2DMake(pin.latitude, pin.longtitude)
+                self.mapView.addAnnotation(annotation)
             }
         }
-        
     }
 
 }
@@ -160,13 +156,16 @@ extension MapViewController {
     func addPin( annotation: MKPointAnnotation) {
         
         // Let backgroundBatch Option handle this!
-        stack.performBackgroundBatchOperation { (workerContext) in
-            
-            let pinFrame =  PinFrame.init(longtitude: annotation.coordinate.longitude,
-                                          latitude: annotation.coordinate.latitude, context: workerContext)
-            DebugM.log("pinFrame object created: \(pinFrame)")
+        let pinFrame =  PinFrame.init(longtitude: annotation.coordinate.longitude,
+                                      latitude: annotation.coordinate.latitude, context: stack.context)
+        
+        do {
+            try stack.saveContext()
+        } catch (let e as NSError) {
+            DebugM.log("Error in saveContext(): \(e.debugDescription)")
         }
-
+        
+        DebugM.log("pinFrame object created by stack.context")
     }
     
     // remove from coredatastack given selected pinFrame

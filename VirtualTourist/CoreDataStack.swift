@@ -142,6 +142,7 @@ extension CoreDataStack {
             // Note context receives changes as we use performBackgroundBatchOperation to set up the connection
             if self.context.hasChanges {
                 do {
+                    print("context has changes and call save()")
                     try self.context.save()
                 } catch {
                     fatalError("Error while saving main context: \(error)")
@@ -151,7 +152,7 @@ extension CoreDataStack {
                 // call persistingContext.save() to save onto the database
                 self.persistingContext.perform() {
                     do {
-                        print("persistingContext.save() and this goes to StoreCoordinator(local storage)")
+                        print("persistingContext has changes and call save()  [StoreCoordinator(local storage)]")
                         try self.persistingContext.save()
                     } catch {
                         fatalError("Error while saving persisting context: \(error)")
@@ -160,17 +161,17 @@ extension CoreDataStack {
             }
         }
         
-        // Add the case for deletion
-        if persistingContext.hasChanges {
-            persistingContext.perform {
-                do {
-                    print("persistingContext.save() and this goes to StoreCoordinator(local storage)")
-                    try self.persistingContext.save()
-                } catch {
-                    fatalError("Error while saving persisting context: \(error)")
-                }
-            }
-        }
+//        // Add the case for deletion
+//        if persistingContext.hasChanges {
+//            persistingContext.perform {
+//                do {
+//                    print("persistingContext.save() and this goes to StoreCoordinator(local storage)")
+//                    try self.persistingContext.save()
+//                } catch {
+//                    fatalError("Error while saving persisting context: \(error)")
+//                }
+//            }
+//        }
     }
     
     
