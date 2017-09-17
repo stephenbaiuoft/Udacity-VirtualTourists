@@ -28,8 +28,6 @@ class DetailedViewController: UIViewController {
             
             fetchedResultsController?.delegate = self
             executeSearch()
-            // reload data for collectionViewController
-            collectionView.reloadData()
 
         }
     }
@@ -49,8 +47,7 @@ class DetailedViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        
-        // set up stack which points to the same entire application stack (datastack)
+                // set up stack which points to the same entire application stack (datastack)
         let delegate = UIApplication.shared.delegate as! AppDelegate
         stack = delegate.stack
 
@@ -60,12 +57,7 @@ class DetailedViewController: UIViewController {
         collectionView.dataSource = self
         
         // create fetchResultsController first ==> so context will notfiy FetchedResultsDelegate
-        // after loadDataModel
-        //initFetchedResultsController()
-        
-        // loadDataModel
-        loadDataForCollectionView()
-        
+        initFetchedResultsController()
         
         // set flowlayout
         setFlowLayout(size: view.frame.width)

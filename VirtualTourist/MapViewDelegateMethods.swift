@@ -40,7 +40,7 @@ extension MapViewController: MKMapViewDelegate {
         var selectedPinFrameSet: [PinFrame]
         
         // two places: backgroundContext for just creating!  before the autoSave
-        fetchedResultsController = NSFetchedResultsController.init(fetchRequest: fetchRequest, managedObjectContext: stack.persistingContext,
+        fetchedResultsController = NSFetchedResultsController.init(fetchRequest: fetchRequest, managedObjectContext: stack.context,
                                                                    sectionNameKeyPath: nil, cacheName: nil)
         // now you can execute search
         executeSearch()
@@ -52,25 +52,8 @@ extension MapViewController: MKMapViewDelegate {
             return
         }
         
-        // assign selectedPinFrameSet variable
-        if (hold.count > 0) {
-            selectedPinFrameSet = hold
-        }
-        else {
-            // meaning just created, not in persistentStore yet ==> must be managed by background!
-            fetchedResultsController = NSFetchedResultsController.init(fetchRequest: fetchRequest, managedObjectContext: stack.backgroundContext,
-                                                                       sectionNameKeyPath: nil, cacheName: nil)
-            // now you can execute search
-            executeSearch()
-            // logical handling?? backgroundContext or if re-opened ==> we need to read from persistingDataStore?
-            guard let hold = fetchedResultsController?.fetchedObjects as? [PinFrame] else {
-                DebugM.log("Failed to convert fetchedObjects to PinFrame")
-                return
-            }
-            selectedPinFrameSet = hold
-        }
+        selectedPinFrameSet = hold
         
-    
         // this is to remove from annotation
         if(removeAnnotation) {
             DebugM.log( "Did select a mkannotationview object")
@@ -78,7 +61,7 @@ extension MapViewController: MKMapViewDelegate {
             if selectedPinFrameSet.count >= 1 {
                 // delete the whole thing!
                 for pinFrame in selectedPinFrameSet {
-                    context.delete(pinFrame)
+                    stack.context.delete(pinFrame)
                 }
             } else {
                 DebugM.log( "Failed to get that that particular pinFrame object ")

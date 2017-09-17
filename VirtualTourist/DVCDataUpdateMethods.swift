@@ -15,63 +15,65 @@ import CoreData
 // Examples: getting updates from PARSE, saving to backgroundContext, and making desired fetchedResultsController
 
 extension DetailedViewController {
-    // This function set the fetchedResultsController
+    // This function set fetchedResultsController to query local storage
     func initFetchedResultsController() {
+
         // generate the query such that photoFrames belong to the selectedPinFrame
         let fr = NSFetchRequest<NSFetchRequestResult>.init(entityName: "PhotoFrame")
-        let predicate = NSPredicate.init(format: "pinframe = %@", argumentArray: [selectedPinFrame!])
-        fr.predicate = predicate
-        
-        fr.sortDescriptors = []
-        
-        fetchedResultsController
-            = NSFetchedResultsController.init(fetchRequest: fr,
-                                              managedObjectContext: stack.persistingContext,
-                                              sectionNameKeyPath: nil, cacheName: nil)
-    }
-    
-    // This function load image data for collectionView
-    func loadDataForCollectionView() {
-        
-        // data already in coredatastack
-        if selectedPinFrame.requested {
-            print("Previous imageDatas already exists ==> load these images ")
-            // only make a request querying local storage
-            initFetchedResultsController()
+        // if selectedPinFrame has data loaded already then
+        if ( selectedPinFrame.requested ){
+
+            let predicate = NSPredicate.init(format: "pinframe = %@", argumentArray: [selectedPinFrame!])
+            fr.predicate = predicate
             
+            fr.sortDescriptors = []
             
+            fetchedResultsController
+                = NSFetchedResultsController.init(fetchRequest: fr,
+                                                  managedObjectContext: stack.context,
+                                                  sectionNameKeyPath: nil, cacheName: nil)
         }
-        // data is not pulled from Flickr yet, make the Flickr request
+        // query photoFrames that just get initialized
         else {
-            FClient.sharedInstance.requestFlickrData(longtitude: (selectedPinFrame?.longtitude)!, latitude: (selectedPinFrame?.latitude)!, completionHandlerForRequestData: { (imageDataSet, errorString) in
+            // create the fetchedResultsController
+            let predicateNil = NSPredicate.init(format: "pinframe = nil", argumentArray: [])
+            fr.predicate = predicateNil
+            fr.sortDescriptors = []
+            
+            fetchedResultsController
+                = NSFetchedResultsController.init(fetchRequest: fr,
+                                                  managedObjectContext: stack.context,
+                                                  sectionNameKeyPath: nil, cacheName: nil)
+            
+            
+            // initialize the task for getting imageUrl now
+            FClient.sharedInstance.requestImageUrlSet(longtitude: (selectedPinFrame?.longtitude)!, latitude: (selectedPinFrame?.latitude)!, completionHandlerForRequestData: { (imageUrlDataSet, errorString)
+                in
                 // Success got 1-12 imageData
                 if (errorString == nil) {
-                    // not stack.performBackgroundBatchOperation invokes our implemented function Asynchronously!!!!
-                    // remeber the Actor model and this is the proper way to do it
-                    // performBackgroundBatchOperation also save() the changes!
-                    self.stack.performBackgroundBatchOperation({ (backgroundContext) in
-                        
-                        for imageData in imageDataSet! {
-                            // create pf instance and linked its relationship to pinFrame chosen
-                            let picf = PhotoFrame.init(imageData: imageData, context: backgroundContext)
-                            picf.pinframe = self.selectedPinFrame
-                        }
-                        
-                        self.selectedPinFrame.requested = true
-                    })
                     
+                    // now stack.performBackgroundBatchOperation invokes our implemented function Asynchronously!!!!
+                    // remeber the Actor model and this is the proper way to do it
+                    // modified performBack ==> such that self.selectedPinFrame relationship is added on the stackQueue
+                    self.stack.performBackgroundBatchOperation({  (workerContext) in
+                        
+                        for imageUrlData in imageUrlDataSet! {
+                            // create pf instance and linked its relationship to pinFrame chosen
+                            // Do the Linking in FetchedResultsControlled Delegate Methods
+                            let photoFrame = PhotoFrame.init(imageStringUrl: imageUrlData, context: workerContext)
+                        }
+                    })
                 }
+                
                 else {
                     // Error
                     DebugM.log(errorString!)
                 }
+                
             })
             
         }
-        
-        
     }
-    
     
     
     func executeSearch() {

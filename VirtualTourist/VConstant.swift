@@ -26,6 +26,7 @@ class VConstant{
         static let SearchBBoxHalfHeight = 0.02
         static let SearchLatRange = (-90.0, 90.0)
         static let SearchLonRange = (-180.0, 180.0)
+        static let MaxPhotoLimit = 30
     }
     
     // MARK: Flickr Parameter Keys

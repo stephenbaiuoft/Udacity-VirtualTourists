@@ -107,7 +107,7 @@ extension CoreDataStack {
     typealias Batch = (_ workerContext: NSManagedObjectContext) -> ()
     
     // here @escaping Batch, so batch is a function paramter!! which is used in performBackgroundBatchOperations
-    func performBackgroundBatchOperation(_ batch: @escaping Batch) {
+    func performBackgroundBatchOperation( _ batch: @escaping Batch) {
         
         backgroundContext.perform() {
             
@@ -116,14 +116,41 @@ extension CoreDataStack {
             // Save it to the parent context, so normal saving
             // can work
             do {
-                // backgroundContext.save() is the built-in function that notifies its parent context
+                // backgroundContext.save() is the built-in function that notifies its 
+                // parent context
                 print("saving to backgroundContext!!!")
                 try self.backgroundContext.save()
             } catch {
                 fatalError("Error while saving backgroundContext: \(error)")
             }
+            
+            
+            do {
+                    // note saveContext() handles diff Queue processing by calling perfromAndWait() or perform()
+                    try self.saveContext()
+                } catch (let e as NSError) {
+                    fatalError("Error while savingContext, calling in performBackgroundBatchOp \(e.description)")
+                }
+                        
         }
     }
+    
+    // performContextBatchOperation
+    func performContextBatchOperation( _ batch: @escaping Batch) {
+        context.perform {
+            batch(self.context)
+            
+            do {
+                print("performContextBatchOperation: saveContext()")
+                try self.saveContext()
+            }
+            catch (let e as NSError) {
+                fatalError("Error while savingContext, calling in performContextBatchOperation: \(e.description)")
+            }
+         }
+    }
+    
+    
 }
 
 // MARK: - CoreDataStack (Save Data)
@@ -160,18 +187,6 @@ extension CoreDataStack {
                 }
             }
         }
-        
-//        // Add the case for deletion
-//        if persistingContext.hasChanges {
-//            persistingContext.perform {
-//                do {
-//                    print("persistingContext.save() and this goes to StoreCoordinator(local storage)")
-//                    try self.persistingContext.save()
-//                } catch {
-//                    fatalError("Error while saving persisting context: \(error)")
-//                }
-//            }
-//        }
     }
     
     

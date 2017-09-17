@@ -13,10 +13,12 @@ import CoreData
 public class PhotoFrame: NSManagedObject {
     // MARK: Initializer
     
-    convenience init( imageData: NSData, context: NSManagedObjectContext) {
+    convenience init( imageStringUrl: String, context: NSManagedObjectContext) {
         if let ent = NSEntityDescription.entity(forEntityName: "PhotoFrame", in: context) {
             self.init(entity: ent, insertInto: context)
-            self.imageData = imageData
+            self.imageUrlString = imageStringUrl
+            // set to nil by default
+            self.imageData = nil
         } else {
             fatalError("Unable to find Entity name of PhotoFrame")
         }

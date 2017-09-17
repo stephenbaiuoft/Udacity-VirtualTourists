@@ -2,7 +2,7 @@
 //  PinFrame+CoreDataProperties.swift
 //  VirtualTourist
 //
-//  Created by stephen on 9/13/17.
+//  Created by stephen on 9/16/17.
 //  Copyright © 2017 Bai Cloud Tech Co. All rights reserved.
 //
 

@@ -56,19 +56,39 @@ extension DetailedViewController: UICollectionViewDataSource {
         
         print("start animating now!")
         activityIndicator.startAnimating()
+        // 2 cases ==> one is just queried and need to get and save binary data
+        if  ( photoFrame?.imageData == nil ) {
         
-        DispatchQueue.main.async {
-            
-            // copy of the cell object!!!
-            [cell, photoFrame, activityIndicator] in
-            
-            print("copied cell, photoFrame, activityIndicator")
-            let cdata = photoFrame?.imageData as Data?
-            cell.imageView.image = UIImage.init(data: cdata!)
-            print("stop animating now!")
-            activityIndicator.stopAnimating()
-            
+            let task = FClient.sharedInstance.taskForRequestImageData(filePath: (photoFrame?.imageUrlString)!, completionHandlerForRequestImageData: { (imageData, errString)
+                in
+                
+                if(errString == nil) {
+                    
+                    self.stack.performContextBatchOperation({ (mainContext) in
+                        photoFrame?.pinframe = self.selectedPinFrame
+                        photoFrame?.imageData = imageData as NSData?
+                        
+                    })
+                    
+                    DispatchQueue.main.async {
+                        
+                        cell.imageView.image = UIImage.init(data: imageData!)
+                        // stop activityIndicator
+                        activityIndicator.stopAnimating()
+                    }
+                }
+            })
         }
+            
+        else {
+            DispatchQueue.main.async {
+                let data =  photoFrame?.imageData! as Data?
+                cell.imageView.image = UIImage.init(data:  data!)
+                // stop activityIndicator
+                activityIndicator.stopAnimating()
+            }
+        }
+                
         
         return cell
 

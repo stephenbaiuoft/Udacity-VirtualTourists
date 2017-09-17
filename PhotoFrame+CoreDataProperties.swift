@@ -2,7 +2,7 @@
 //  PhotoFrame+CoreDataProperties.swift
 //  VirtualTourist
 //
-//  Created by stephen on 9/13/17.
+//  Created by stephen on 9/16/17.
 //  Copyright © 2017 Bai Cloud Tech Co. All rights reserved.
 //
 
@@ -17,6 +17,7 @@ extension PhotoFrame {
     }
 
     @NSManaged public var imageData: NSData?
+    @NSManaged public var imageUrlString: String?
     @NSManaged public var pinframe: PinFrame?
 
 }

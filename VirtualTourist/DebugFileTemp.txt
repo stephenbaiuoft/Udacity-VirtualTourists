@@ -1,0 +1,34 @@
+//
+//  DebugFileTemp.swift
+//  VirtualTourist
+//
+//  Created by stephen on 9/16/17.
+//  Copyright © 2017 Bai Cloud Tech Co. All rights reserved.
+//
+
+
+
+// Place Holder File
+
+
+// For testing which stack a particular variable belongs to
+if ( photoFrame?.managedObjectContext == self.stack.context ) {
+print("photoFrame is stack.context?")
+}
+else if (photoFrame?.managedObjectContext == self.stack.backgroundContext) {
+print("photoFrame is background ?")
+}
+else if (photoFrame?.managedObjectContext == self.stack.persistingContext) {
+print("photoFrame is persistingContext ?")
+}
+
+
+if ( self.selectedPinFrame.managedObjectContext == self.stack.context ) {
+print("selectedFrame is stack.context?")
+}
+else if (self.selectedPinFrame.managedObjectContext == self.stack.backgroundContext) {
+print("selectedFrame is background ?")
+}
+else if (self.selectedPinFrame.managedObjectContext == self.stack.persistingContext) {
+print("selectedFrame is persistingContext ?")
+}

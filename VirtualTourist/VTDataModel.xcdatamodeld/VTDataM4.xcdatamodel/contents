@@ -2,8 +2,8 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16G29" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="PhotoFrame" representedClassName="PhotoFrame" syncable="YES">
         <attribute name="imageData" optional="YES" attributeType="Binary" syncable="YES"/>
-        <attribute name="imageUrlString" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="pinframe" maxCount="1" deletionRule="Nullify" destinationEntity="PinFrame" inverseName="photoframe" inverseEntity="PinFrame" syncable="YES"/>
+        <attribute name="imageUrlString" attributeType="String" syncable="YES"/>
+        <relationship name="pinframe" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PinFrame" inverseName="photoframe" inverseEntity="PinFrame" syncable="YES"/>
     </entity>
     <entity name="PinFrame" representedClassName="PinFrame" syncable="YES">
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
@@ -12,7 +12,7 @@
         <relationship name="photoframe" optional="YES" toMany="YES" maxCount="21" deletionRule="Cascade" destinationEntity="PhotoFrame" inverseName="pinframe" inverseEntity="PhotoFrame" syncable="YES"/>
     </entity>
     <elements>
-        <element name="PhotoFrame" positionX="-65" positionY="132" width="128" height="90"/>
+        <element name="PhotoFrame" positionX="-65" positionY="198" width="128" height="90"/>
         <element name="PinFrame" positionX="-63" positionY="-18" width="128" height="105"/>
     </elements>
 </model>
