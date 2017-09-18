@@ -28,7 +28,6 @@ class DetailedViewController: UIViewController {
             
             fetchedResultsController?.delegate = self
             executeSearch()
-
         }
     }
     
@@ -91,6 +90,23 @@ class DetailedViewController: UIViewController {
 
 // MARK: Back end Logical Functions
 extension DetailedViewController {
+    func showLabel() {
+        let label = UILabel.init()
+        label.text = "This pin has no images"
+        label.textAlignment = .center
+        // have to set false so autolayout calcualtes our constraints!
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(label)
+        
+        NSLayoutConstraint.init(item: label, attribute: .centerX, relatedBy: .equal, toItem: mapView, attribute: .centerX, multiplier: 1, constant: 0).isActive = true
+        NSLayoutConstraint.init(item: label, attribute: .width, relatedBy: .equal, toItem: mapView, attribute: .width, multiplier: 1, constant: 0).isActive = true
+        
+        NSLayoutConstraint.init(item: label, attribute: .top, relatedBy: .equal, toItem: mapView, attribute: .bottom, multiplier: 1, constant: 50).isActive = true
+        
+        NSLayoutConstraint.init(item: label, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 50.0).isActive = true
+        
+    }
     
     func addToMapView() {
         DispatchQueue.main.async {

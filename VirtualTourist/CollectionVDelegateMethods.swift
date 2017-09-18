@@ -65,7 +65,6 @@ extension DetailedViewController: UICollectionViewDataSource {
                 if(errString == nil) {
                     
                     self.stack.performContextBatchOperation({ (mainContext) in
-                        //photoFrame?.pinframe = self.selectedPinFrame
                         photoFrame?.imageData = imageData as NSData?
                         
                     })
