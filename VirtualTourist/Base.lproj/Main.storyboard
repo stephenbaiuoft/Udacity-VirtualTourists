@@ -96,8 +96,20 @@
                                     <constraint firstAttribute="height" constant="150" id="oW4-Z8-lCI"/>
                                 </constraints>
                             </mapView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SdJ-Bm-enC">
+                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="BMV-TM-Qs5"/>
+                                    <barButtonItem title="New Collection" style="done" id="lSc-Yc-arL">
+                                        <connections>
+                                            <action selector="newCollectionPressed" destination="TVd-t8-zlC" id="mTS-dx-449"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="oEh-f3-tVK"/>
+                                </items>
+                            </toolbar>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="O5P-P0-cZx" userLabel="Flickr Collection View">
-                                <rect key="frame" x="0.0" y="214" width="375" height="453"/>
+                                <rect key="frame" x="0.0" y="214" width="375" height="409"/>
                                 <color key="backgroundColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="50H-mJ-7L3">
                                     <size key="itemSize" width="153" height="154"/>
@@ -140,13 +152,16 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="SdJ-Bm-enC" firstAttribute="top" secondItem="O5P-P0-cZx" secondAttribute="bottom" id="3sf-k8-EvN"/>
                             <constraint firstItem="g6Q-oK-9o7" firstAttribute="top" secondItem="d7I-H7-8mz" secondAttribute="bottom" id="44A-Rx-2hg"/>
                             <constraint firstItem="g6Q-oK-9o7" firstAttribute="centerX" secondItem="Lbp-Jv-yM3" secondAttribute="centerX" id="8Mn-QJ-w6D"/>
+                            <constraint firstItem="j8D-SX-Tq8" firstAttribute="top" secondItem="SdJ-Bm-enC" secondAttribute="bottom" id="Ldl-8s-1YO"/>
                             <constraint firstItem="O5P-P0-cZx" firstAttribute="leading" secondItem="Lbp-Jv-yM3" secondAttribute="leading" id="W0I-Fa-IM9"/>
                             <constraint firstAttribute="trailing" secondItem="O5P-P0-cZx" secondAttribute="trailing" id="cH2-zm-AUZ"/>
                             <constraint firstItem="g6Q-oK-9o7" firstAttribute="width" secondItem="Lbp-Jv-yM3" secondAttribute="width" id="fcS-Sq-BKN"/>
+                            <constraint firstItem="SdJ-Bm-enC" firstAttribute="leading" secondItem="Lbp-Jv-yM3" secondAttribute="leading" id="kmk-Ch-CbN"/>
                             <constraint firstItem="O5P-P0-cZx" firstAttribute="top" secondItem="g6Q-oK-9o7" secondAttribute="bottom" id="wJr-7R-7AZ"/>
-                            <constraint firstItem="j8D-SX-Tq8" firstAttribute="top" secondItem="O5P-P0-cZx" secondAttribute="bottom" id="xoA-Qk-OZf"/>
+                            <constraint firstAttribute="trailing" secondItem="SdJ-Bm-enC" secondAttribute="trailing" id="zAV-aF-fUa"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="0W2-dc-Uk5"/>
@@ -154,6 +169,7 @@
                         <outlet property="collectionView" destination="O5P-P0-cZx" id="QTu-nt-UE4"/>
                         <outlet property="flowLayout" destination="50H-mJ-7L3" id="0Sp-yy-SRB"/>
                         <outlet property="mapView" destination="g6Q-oK-9o7" id="nKi-hH-vlj"/>
+                        <outlet property="newCollectionButton" destination="lSc-Yc-arL" id="rTu-PO-tPv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="whB-Zd-E6P" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -15,6 +15,7 @@ class DetailedViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
+    @IBOutlet weak var newCollectionButton: UIBarButtonItem!
     
     var blockCount = 0
     var coordinate: CLLocationCoordinate2D!
@@ -46,7 +47,15 @@ class DetailedViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-                // set up stack which points to the same entire application stack (datastack)
+        if(selectedPinFrame.requested == true) {
+            newCollectionButton.isEnabled = true
+        }
+        else {
+            newCollectionButton.isEnabled = false
+        }
+
+        
+        // set up stack which points to the same entire application stack (datastack)
         let delegate = UIApplication.shared.delegate as! AppDelegate
         stack = delegate.stack
 
@@ -86,6 +95,20 @@ class DetailedViewController: UIViewController {
         }
     }
 
+    // newCollection is pressed
+    @IBAction func newCollectionPressed() {
+        // remove all database objects
+        stack.performContextBatchOperation { (mainContext) in
+            for photoFrame in self.selectedPinFrame.photoframe! {
+                mainContext.delete(photoFrame as! NSManagedObject)
+            }
+        }
+        
+        // load the imageData from Flickr again
+        loadImageData()
+        
+        
+    }
 }
 
 // MARK: Back end Logical Functions
