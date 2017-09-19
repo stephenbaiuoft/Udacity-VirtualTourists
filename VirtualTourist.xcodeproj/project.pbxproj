@@ -58,6 +58,7 @@
 		DC2D80691F69BEBA00CAE050 /* SwiftHelperExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftHelperExtension.swift; sourceTree = "<group>"; };
 		DC2D806B1F69EDC200CAE050 /* VTDataModel2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = VTDataModel2.xcdatamodel; sourceTree = "<group>"; };
 		DC2D80741F69F30800CAE050 /* DVCDataUpdateMethods.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DVCDataUpdateMethods.swift; sourceTree = "<group>"; };
+		DC3120B41F7000E600045B7B /* M5_phoFNewAttri.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = M5_phoFNewAttri.xcdatamodel; sourceTree = "<group>"; };
 		DCB0FD331F6713050027D75D /* VirtualTourist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VirtualTourist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCB0FD361F6713050027D75D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DCB0FD3B1F6713050027D75D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -689,6 +690,7 @@
 		DCB0FD7A1F673CD50027D75D /* VTDataModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				DC3120B41F7000E600045B7B /* M5_phoFNewAttri.xcdatamodel */,
 				DCBD8C471F6DF2BF00FFF8FE /* VTDataM4.xcdatamodel */,
 				DCBD8C3E1F6DC4CA00FFF8FE /* VTDataM3PhotoFrame.xcdatamodel */,
 				DC2D806B1F69EDC200CAE050 /* VTDataModel2.xcdatamodel */,

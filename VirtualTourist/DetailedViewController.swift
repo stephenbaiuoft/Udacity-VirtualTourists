@@ -17,8 +17,8 @@ class DetailedViewController: UIViewController {
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet weak var newCollectionButton: UIBarButtonItem!
     
-    var blockCount = 0
     var coordinate: CLLocationCoordinate2D!
+    var selectedIndexSet = [IndexPath]()
     
     // MARK: Variable Section
     var selectedPinFrame: PinFrame!
@@ -97,22 +97,45 @@ class DetailedViewController: UIViewController {
 
     // newCollection is pressed
     @IBAction func newCollectionPressed() {
-        // remove all database objects
-        stack.performContextBatchOperation { (mainContext) in
-            for photoFrame in self.selectedPinFrame.photoframe! {
-                mainContext.delete(photoFrame as! NSManagedObject)
-            }
+        
+        if(selectedIndexSet.count > 0 ){
+            stack.performContextBatchOperation({ (mainContext) in
+                for indexPath in self.selectedIndexSet {
+                    let removal = self.fetchedResultsController?.object(at: indexPath)
+                    mainContext.delete(removal as! NSManagedObject)
+                }
+                self.selectedIndexSet = [IndexPath]()
+            })
         }
-        
+        else{
+            // diable the button
+            newCollectionButton.isEnabled = false
+            selectedIndexSet = [IndexPath]()
+            // remove all database objects
+            stack.performContextBatchOperation { (mainContext) in
+                for photoFrame in self.selectedPinFrame.photoframe! {
+                    mainContext.delete(photoFrame as! NSManagedObject)
+                }
+            }
         // load the imageData from Flickr again
-        loadImageData()
-        
-        
+            loadImageData()
+        }
+        updateBotButton()
     }
+    
 }
 
 // MARK: Back end Logical Functions
 extension DetailedViewController {
+    // if collectionButton's title needs to be changed
+    func updateBotButton() {
+        if(selectedIndexSet.count > 0){
+            newCollectionButton.title = "Remove Selected Pictures"
+        } else{
+            newCollectionButton.title = "New Collection"
+        }
+    }
+    
     func showLabel() {
         let label = UILabel.init()
         label.text = "This pin has no images"

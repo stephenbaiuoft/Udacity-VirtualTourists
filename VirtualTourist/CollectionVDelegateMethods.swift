@@ -42,6 +42,9 @@ extension DetailedViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
+        // notify the button if collectionViewButton Text needs to be changed
+        updateBotButton()
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ImageCollectionViewCell
         let activityIndicator = cell.activityIndicator!
         
@@ -71,7 +74,6 @@ extension DetailedViewController: UICollectionViewDataSource {
                     
                     DispatchQueue.main.async {
                         
-                        cell.imageView.image = UIImage.init(data: imageData!)
                         // stop activityIndicator
                         activityIndicator.stopAnimating()
                     }
@@ -82,7 +84,14 @@ extension DetailedViewController: UICollectionViewDataSource {
         else {
             DispatchQueue.main.async {
                 let data =  photoFrame?.imageData! as Data?
+                //cell.imageView.image = UIImage.init(data:  data!)
                 cell.imageView.image = UIImage.init(data:  data!)
+                cell.imageView.alpha = 1
+                if self.selectedIndexSet.contains(indexPath) {
+                    // set it here
+                    DebugM.log("setting it here as well => will be called on reload this item")
+                    cell.imageView.alpha = 0.6
+                }
                 // stop activityIndicator
                 activityIndicator.stopAnimating()
             }
@@ -93,17 +102,27 @@ extension DetailedViewController: UICollectionViewDataSource {
 
     }
     
-    // MARK: UICollectionViewDelegate
-    // Go to DetailMemeViewController!!!
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
-//
-//    }
-    
-    
 }
 
 // Implementing UICollectionViewDelegate Methods
 extension DetailedViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("This item is selected in particular: saving indexPath info ")
+        
+         // Because swift re-uses the cells!!! so guess what
+         // you should save this index info and see when displaying, change the value there!!
+        if(!selectedIndexSet.contains(indexPath)) {
+            selectedIndexSet.append(indexPath)
+        } else {
+            selectedIndexSet.remove(at: selectedIndexSet.index(of: indexPath)!)
+        }
+
+        // Now reload the item, which goes back to the return cell delegate!!
+        collectionView.reloadItems(at: [indexPath])
+
+    }
+    
+ 
     
 }
 
@@ -143,9 +162,6 @@ extension DetailedViewController: NSFetchedResultsControllerDelegate {
 
             switch(type) {
             case .insert:
-                self.blockCount += 1
-                print("blockCount currently is: \(self.blockCount)")
-                
                 self.blockOperationSet.append(BlockOperation.init(block: {
                     [newIndexPath] in
                     self.collectionView.insertItems(at: [newIndexPath!])
@@ -169,7 +185,6 @@ extension DetailedViewController: NSFetchedResultsControllerDelegate {
                     self.collectionView.deleteItems(at: [indexPath!])
                     self.collectionView.insertItems(at: [newIndexPath!])
                 }))
-                self.blockCount += 1
             }
         
     }

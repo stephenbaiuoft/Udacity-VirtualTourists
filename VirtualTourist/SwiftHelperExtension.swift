@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 extension Double {
     /// Rounds the double to decimal places value
@@ -14,4 +15,14 @@ extension Double {
         let divisor = pow(10.0, Double(places))
         return (self * divisor).rounded() / divisor
     }
+    
+    
+}
+
+/**
+ 
+ */
+ 
+extension UIImage {
+
 }
