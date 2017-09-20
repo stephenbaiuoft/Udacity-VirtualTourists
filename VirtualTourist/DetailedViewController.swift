@@ -116,6 +116,7 @@ class DetailedViewController: UIViewController {
                 for photoFrame in self.selectedPinFrame.photoframe! {
                     mainContext.delete(photoFrame as! NSManagedObject)
                 }
+              
             }
         // load the imageData from Flickr again
             loadImageData()

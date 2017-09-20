@@ -110,7 +110,6 @@
                             </toolbar>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="O5P-P0-cZx" userLabel="Flickr Collection View">
                                 <rect key="frame" x="0.0" y="214" width="375" height="409"/>
-                                <color key="backgroundColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="50H-mJ-7L3">
                                     <size key="itemSize" width="153" height="154"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -127,7 +126,6 @@
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MBV-N0-4i8">
                                                     <rect key="frame" x="0.0" y="0.0" width="153" height="154"/>
-                                                    <color key="backgroundColor" red="0.31986136279999999" green="0.85732736909999996" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </imageView>
                                                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="6mF-yK-GfS" userLabel="White ACI">
