@@ -104,13 +104,13 @@ class DetailedViewController: UIViewController {
                     let removal = self.fetchedResultsController?.object(at: indexPath)
                     mainContext.delete(removal as! NSManagedObject)
                 }
-                self.selectedIndexSet = [IndexPath]()
+                self.selectedIndexSet.removeAll()
             })
         }
         else{
             // diable the button
             newCollectionButton.isEnabled = false
-            selectedIndexSet = [IndexPath]()
+            selectedIndexSet.removeAll()
             // remove all database objects
             stack.performContextBatchOperation { (mainContext) in
                 for photoFrame in self.selectedPinFrame.photoframe! {

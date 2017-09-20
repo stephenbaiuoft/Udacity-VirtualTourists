@@ -26,7 +26,7 @@ extension DetailedViewController: UICollectionViewDataSource {
         // #warning Incomplete implementation, return the number of items
         if let fr = fetchedResultsController {
             // important to return that particular section number of Objects!!
-            return (fr.sections![section].numberOfObjects)
+            return  10 < fr.sections![section].numberOfObjects ? 10 : fr.sections![section].numberOfObjects
         } else {
             return 0
         }
